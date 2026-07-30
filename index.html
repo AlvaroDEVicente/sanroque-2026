@@ -149,8 +149,8 @@
     border-radius:var(--radio); padding:14px 16px; margin-bottom:12px;
     box-shadow:var(--sombra);
   }
-  .evento.proximo{border-color:var(--rojo); box-shadow:0 0 0 2px rgba(196,54,46,.25),var(--sombra)}
-  .evento.ahora{border-color:var(--verde); box-shadow:0 0 0 2px rgba(46,139,104,.25),var(--sombra)}
+  /* La lista es el programa impreso: no reacciona a la hora, así que no
+     tiene estados. Las pastillas y sus clases viven solo en el hero. */
   .hora{
     flex:0 0 auto; font-family:var(--display); font-weight:700;
     font-size:1.05rem; background:var(--crema-2); color:var(--tinta);
@@ -173,8 +173,10 @@
     margin-bottom:4px;
   }
   .etq-ahora{background:var(--verde)}
-  /* El display:inline-block de arriba gana al [hidden] del navegador, así que
-     hay que devolvérselo a mano. Vale para las dos pastillas. */
+  /* Ya no se oculta ninguna pastilla —el hero pinta una sola y siempre
+     visible—, pero la regla se queda como salvaguarda: el display
+     inline-block de arriba gana al [hidden] del navegador, y quien vuelva a
+     usar [hidden] sobre una pastilla se encontraría con que no oculta. */
   .etq-proximo[hidden], .etq-ahora[hidden]{display:none}
 
   /* ---------- Footer ---------- */
@@ -293,7 +295,7 @@ const FIESTAS = {
 };
 
 /* ─────────── A partir de aquí, lógica de la página ─────────── */
-const ICONOS = { musica:"🎵", cultura:"📖", fiesta:"🎉", religioso:"⛪", charanga:"🎺", verbena:"🎶", atracciones:"🎡", pregon:"🎆" };
+const ICONOS = { musica:"🎵", cultura:"📖", fiesta:"🎉", religioso:"⛪", charanga:"🎺", verbena:"🎶", atracciones:"🎡", pregon:"📣" };
 const MESES = ["enero","febrero","marzo","abril","mayo","junio","julio","agosto","septiembre","octubre","noviembre","diciembre"];
 const DIAS_SEMANA = ["domingo","lunes","martes","miércoles","jueves","viernes","sábado"];
 
@@ -444,13 +446,8 @@ function estadoDe(dia, t){
   return { enCurso, proximo };
 }
 
-/* Para la lista: solo marca actos de la jornada que está pintada. */
-function estadoJornadaDe(dia){
-  if(new Date(dia.fecha+"T00:00:00").getTime() !== fechaJornada(ahora()).getTime()) return { enCurso:-1, proximo:-1 };
-  return estadoDe(dia, refAhora());
-}
-
-/* Para el hero: el acto en curso solo puede ser de la jornada activa, pero el
+/* Solo lo consume el hero: la lista es un cartel fijo y no marca nada.
+   El acto en curso solo puede ser de la jornada activa, pero el
    próximo puede estar en días posteriores. A las 06:30 del viernes es más útil
    decir que lo siguiente es esa noche que decir que no queda nada. */
 function estadoHero(){
@@ -491,9 +488,9 @@ function diaDelProximo(prox){
   return DIAS_SEMANA[inicio.getDay()];
 }
 
-/* La etiqueta "Próximo" se pinta siempre, oculta con [hidden]. Así el refresco
-   solo tiene que alternar atributos y nunca reconstruye la lista, que volvería
-   a lanzar la animación "aparecer" y haría parpadear el programa cada minuto. */
+/* El programa impreso: idéntico a cualquier hora del día. Solo se repinta al
+   cambiar de día, nunca en el refresco periódico, así que la animación
+   "aparecer" no puede parpadear. */
 function pintarPrograma(){
   const dia = FIESTAS.dias[diaActivo];
   const cont = document.getElementById("programa");
@@ -504,27 +501,10 @@ function pintarPrograma(){
       <article class="evento">
         <div class="hora${esNocturna(ev)?" nocturna":""}">${ev.horaTexto||ev.hora}</div>
         <div class="evento-cuerpo">
-          <span class="etq-ahora" hidden>Ahora</span><span class="etq-proximo" hidden>Próximo</span>
           <p><span class="ico" aria-hidden="true">${ICONOS[ev.tipo]||"•"}</span>${ev.titulo}
           ${notaDiaSiguiente(ev, siguienteDia)}</p>
         </div>
       </article>`).join("");
-  marcarActos();
-}
-
-function alternarMarca(art, clase, selector, activo){
-  if(activo) art.classList.add(clase); else art.classList.remove(clase);
-  const etq = art.querySelector(selector);
-  if(etq){ if(activo) etq.removeAttribute("hidden"); else etq.setAttribute("hidden",""); }
-}
-
-function marcarActos(){
-  const est = estadoJornadaDe(FIESTAS.dias[diaActivo]);
-  const arts = document.querySelectorAll("#programa .evento");
-  for(let j=0;j<arts.length;j++){
-    alternarMarca(arts[j], "ahora", ".etq-ahora", j===est.enCurso);
-    alternarMarca(arts[j], "proximo", ".etq-proximo", j===est.proximo);
-  }
 }
 
 /* Solo aria-pressed: repintar la nav en el refresco perdería el foco. */
@@ -595,21 +575,23 @@ function pintarEstado(){
     return;
   }
 
-  let filas="";
+  /* Una sola línea, nunca dos: «Próximo» es el respaldo de cuando no hay
+     nada en curso, no un acompañamiento. Consecuencia aceptada: entre las
+     02:00 y las 07:00 del domingo el hero dirá «Ahora Show Big Party»
+     cinco horas seguidas sin mencionar la charanga de las 07:00. */
   if(est.enCurso){
     /* Sin hora: si está ocurriendo, la de inicio no aporta y ocupa sitio. */
-    filas += `<span class="estado-linea"><span class="etq-ahora">Ahora</span>` +
-             `<span class="estado-nombre">${est.enCurso.dia.eventos[est.enCurso.idx].titulo}</span></span>`;
+    txt.innerHTML = `<span class="estado-linea"><span class="etq-ahora">Ahora</span>` +
+      `<span class="estado-nombre">${est.enCurso.dia.eventos[est.enCurso.idx].titulo}</span></span>`;
+    return;
   }
-  if(est.proximo){
-    const ev=est.proximo.dia.eventos[est.proximo.idx];
-    const dia=diaDelProximo(est.proximo);
-    filas += `<span class="estado-linea"><span class="etq-proximo">Próximo</span>` +
-             (dia?`<span class="estado-dia">${dia}</span>`:"") +
-             `<span class="estado-hora">${ev.horaTexto||ev.hora}</span>` +
-             `<span class="estado-nombre">${ev.titulo}</span></span>`;
-  }
-  txt.innerHTML=filas;
+  const ev=est.proximo.dia.eventos[est.proximo.idx];
+  const dia=diaDelProximo(est.proximo);
+  txt.innerHTML =
+    `<span class="estado-linea"><span class="etq-proximo">Próximo</span>` +
+    (dia?`<span class="estado-dia">${dia}</span>`:"") +
+    `<span class="estado-hora">${ev.horaTexto||ev.hora}</span>` +
+    `<span class="estado-nombre">${ev.titulo}</span></span>`;
 }
 
 function sincronizarDia(){
@@ -622,17 +604,16 @@ function refrescar(){
   const cambioJornada = clave!==jornadaSincronizada;
   jornadaSincronizada = clave;
   pintarEstado();
-  let reconstruido = false;
+  /* Lo único que el refresco toca de #programa es repintarlo cuando cambia
+     la jornada, y por el cambio de día, no por el estado de los actos. */
   if(cambioJornada && !seleccionManual){
     const idx=indiceJornada(fechaJornada(ahora()));
     if(idx>=0 && idx!==diaActivo){
       diaActivo=idx;
       marcarChips();
-      pintarPrograma();   // cambio real de jornada: aquí sí toca reconstruir
-      reconstruido = true;
+      pintarPrograma();
     }
   }
-  if(!reconstruido) marcarActos();     // pintarPrograma() ya lo hace por su cuenta
   if(trasRefrescar) trasRefrescar();
 }
 
@@ -688,10 +669,19 @@ const CSS_PANEL = `
 /* Dos filas y desplazamiento horizontal: nunca scroll vertical anidado. */
 #pruebas .p-actos{display:grid; grid-auto-flow:column; grid-template-rows:repeat(2,auto);
   gap:5px; overflow-x:auto; overflow-y:hidden; padding-bottom:4px}
+#pruebas .p-momentos{display:flex; gap:5px; overflow-x:auto; overflow-y:hidden; padding-bottom:4px}
 #pruebas .p-deb{color:#9aa7b6; font-size:11px; margin-top:5px}
 `;
 
-let nodoPanel = null, cssPanel = null;
+/* Momentos que hay que inspeccionar y que a mano solo se alcanzan a base de
+   ±15 min. Atados a la edición de 2026, como el resto del panel. */
+const MOMENTOS = [
+  ["Jue 21:00","2026-08-13T21:00"], ["Vie 06:30","2026-08-14T06:30"],
+  ["Sáb 19:00","2026-08-15T19:00"], ["Dom 08:00","2026-08-16T08:00"],
+  ["Dom 09:30","2026-08-16T09:30"], ["Lun 05:00","2026-08-17T05:00"],
+];
+
+let nodoPanel = null, cssPanel = null, huecoPanel = null;
 
 function dosCifras(n){ return String(n).padStart(2,"0"); }
 
@@ -718,10 +708,22 @@ function construirPanel(){
     '<div class="p-fila"><input type="datetime-local" id="p-input" aria-label="Momento simulado">' +
     '<button class="p-real" id="p-real">Hora real</button></div>' +
     '<div class="p-fila" id="p-rel"></div>' +
+    '<p class="p-lab">Momentos intermedios:</p>' +
+    '<div class="p-momentos" id="p-momentos"></div>' +
     '<p class="p-lab">Saltar al inicio de cada acto:</p>' +
     '<div class="p-actos" id="p-actos"></div>' +
     '<p class="p-deb" id="p-deb"></p>';
   document.body.appendChild(nodoPanel);
+
+  /* El hueco va DENTRO del pie, no como padding del body: así lo que queda
+     bajo el footer es su propio fondo oscuro y no aparece una franja clara
+     entre el pie y el panel cuando la jornada tiene pocos actos. */
+  const pie = document.querySelector("footer");
+  if(pie){
+    huecoPanel = document.createElement("div");
+    huecoPanel.id = "p-hueco";
+    pie.appendChild(huecoPanel);
+  }
 
   const rel = nodoPanel.querySelector("#p-rel");
   [["−1 h",-60],["−15 min",-15],["+15 min",15],["+1 h",60],["+1 día",1440]].forEach(par=>{
@@ -729,6 +731,14 @@ function construirPanel(){
     b.textContent = par[0];
     b.addEventListener("click",()=>fijarDesfase(desfaseReloj + par[1]*60000));
     rel.appendChild(b);
+  });
+
+  const momentos = nodoPanel.querySelector("#p-momentos");
+  MOMENTOS.forEach(par=>{
+    const b = document.createElement("button");
+    b.textContent = par[0];
+    b.addEventListener("click",()=>fijarDesfase(new Date(par[1]).getTime() - Date.now()));
+    momentos.appendChild(b);
   });
 
   const actos = nodoPanel.querySelector("#p-actos");
@@ -762,14 +772,14 @@ function actualizarPanel(){
     "Depuración · jornada activa: "+DIAS_SEMANA[j.getDay()]+" "+j.getDate()+" de "+
     MESES[j.getMonth()]+" · corte: "+dosCifras(CORTE_JORNADA)+":00";
   /* La barra es fija: sin este hueco el último acto queda debajo. */
-  document.body.style.paddingBottom = nodoPanel.offsetHeight+"px";
+  if(huecoPanel) huecoPanel.style.height = nodoPanel.offsetHeight+"px";
 }
 
 function quitarPanel(){
   trasRefrescar = null;
   if(cssPanel){ cssPanel.remove(); cssPanel = null; }
   if(nodoPanel){ nodoPanel.remove(); nodoPanel = null; }
-  document.body.style.paddingBottom = "";
+  if(huecoPanel){ huecoPanel.remove(); huecoPanel = null; }
   /* Quita el parámetro para que quede como si nunca hubiera venido. En file://
      algunos navegadores lo prohíben, de ahí el try. */
   try{ history.replaceState(null,"",window.location.pathname); }catch(e){}
