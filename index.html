@@ -1,0 +1,363 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Fiestas de San Roque · Valdeobispo</title>
+<meta name="description" content="Programa de las fiestas de San Roque de Valdeobispo (Cáceres). Consulta actos, horarios y días.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,700;12..96,800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --rojo:#C4362E; --rojo-osc:#94271F;
+    --dorado:#E39A24; --dorado-cl:#F6C64C;
+    --verde:#2E8B68; --azul:#2A6E9C; --rosa:#D9557E;
+    --crema:#FBF3E1; --crema-2:#F4E7C9; --papel:#FFFCF4;
+    --tinta:#2A2019; --tinta-suave:#6E5F4E;
+    --linea:#E5D3AC;
+    --sombra:0 6px 22px rgba(70,44,20,.10);
+    --radio:16px;
+    --display:'Bricolage Grotesque', system-ui, sans-serif;
+    --cuerpo:'Inter', system-ui, -apple-system, sans-serif;
+  }
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{
+    margin:0; font-family:var(--cuerpo); color:var(--tinta);
+    background:var(--crema); font-size:17px; line-height:1.55;
+    -webkit-font-smoothing:antialiased;
+  }
+  a{color:var(--rojo-osc)}
+
+  /* ---------- Banderines (signature) ---------- */
+  .bunting{
+    display:flex; width:100%; height:26px; overflow:hidden;
+    border-top:3px solid var(--tinta); padding:0;
+  }
+  .flag{
+    flex:1 1 auto; height:26px;
+    clip-path:polygon(0 0,100% 0,50% 100%);
+    transform-origin:top center;
+  }
+  .flag:nth-child(5n+1){background:var(--rojo)}
+  .flag:nth-child(5n+2){background:var(--dorado)}
+  .flag:nth-child(5n+3){background:var(--verde)}
+  .flag:nth-child(5n+4){background:var(--azul)}
+  .flag:nth-child(5n+5){background:var(--rosa)}
+
+  /* ---------- Hero ---------- */
+  .hero{
+    text-align:center;
+    background:radial-gradient(120% 90% at 50% -10%, var(--dorado-cl) 0%, var(--crema-2) 42%, var(--crema) 100%);
+    padding-bottom:30px;
+  }
+  .hero-inner{max-width:760px; margin:0 auto; padding:26px 20px 4px}
+  .eyebrow{
+    font-family:var(--display); font-weight:700; letter-spacing:.14em;
+    text-transform:uppercase; font-size:.92rem; color:var(--rojo-osc);
+    margin:8px 0 2px;
+  }
+  .titulo{
+    font-family:var(--display); font-weight:800;
+    font-size:clamp(3rem,16vw,6.2rem); line-height:.92;
+    color:var(--rojo); margin:2px 0 6px; letter-spacing:-.01em;
+    text-wrap:balance;
+  }
+  .lugar{
+    font-family:var(--display); font-weight:600; font-size:1.15rem;
+    margin:0 0 10px; color:var(--tinta);
+  }
+  .fechas{
+    display:inline-block; font-weight:600; font-size:1rem;
+    background:var(--tinta); color:var(--crema);
+    padding:7px 16px; border-radius:999px; margin:2px 0 16px;
+  }
+  .estado{
+    max-width:520px; margin:0 auto; padding:12px 16px;
+    background:var(--papel); border:1px solid var(--linea);
+    border-radius:var(--radio); box-shadow:var(--sombra);
+    font-size:.98rem; display:flex; gap:10px; align-items:center;
+    justify-content:center; text-align:left;
+  }
+  .estado .punto{
+    width:11px; height:11px; border-radius:50%; background:var(--verde);
+    flex:0 0 auto; box-shadow:0 0 0 4px rgba(46,139,104,.18);
+  }
+
+  /* ---------- Navegación de días ---------- */
+  .dias-nav{
+    position:sticky; top:0; z-index:20;
+    display:flex; gap:8px; overflow-x:auto; scrollbar-width:none;
+    padding:12px 14px; background:rgba(251,243,225,.92);
+    backdrop-filter:blur(8px); border-bottom:1px solid var(--linea);
+  }
+  .dias-nav::-webkit-scrollbar{display:none}
+  .dia-chip{
+    flex:0 0 auto; font-family:var(--display); font-weight:700;
+    font-size:.98rem; padding:10px 16px; border-radius:999px;
+    border:1.5px solid var(--linea); background:var(--papel);
+    color:var(--tinta); cursor:pointer; white-space:nowrap;
+    display:flex; flex-direction:column; align-items:center; line-height:1.1;
+    transition:transform .12s ease, background .12s ease, border-color .12s ease;
+  }
+  .dia-chip small{font-family:var(--cuerpo); font-weight:500; font-size:.72rem; color:var(--tinta-suave); text-transform:uppercase; letter-spacing:.05em}
+  .dia-chip[aria-selected="true"]{
+    background:var(--rojo); color:#fff; border-color:var(--rojo);
+  }
+  .dia-chip[aria-selected="true"] small{color:rgba(255,255,255,.85)}
+  .dia-chip:focus-visible{outline:3px solid var(--azul); outline-offset:2px}
+
+  /* ---------- Programa ---------- */
+  main{max-width:760px; margin:0 auto; padding:8px 16px 40px}
+  .dia-titulo{
+    font-family:var(--display); font-weight:800; font-size:1.6rem;
+    margin:22px 2px 14px; color:var(--tinta);
+  }
+  .dia-titulo span{color:var(--rojo-osc)}
+  .evento{
+    display:flex; gap:14px; align-items:flex-start;
+    background:var(--papel); border:1px solid var(--linea);
+    border-radius:var(--radio); padding:14px 16px; margin-bottom:12px;
+    box-shadow:var(--sombra);
+  }
+  .evento.proximo{border-color:var(--rojo); box-shadow:0 0 0 2px rgba(196,54,46,.25),var(--sombra)}
+  .hora{
+    flex:0 0 auto; font-family:var(--display); font-weight:700;
+    font-size:1.02rem; background:var(--crema-2); color:var(--tinta);
+    padding:8px 10px; border-radius:12px; min-width:62px; text-align:center;
+    line-height:1.15;
+  }
+  .hora small{display:block; font-family:var(--cuerpo); font-weight:500; font-size:.62rem; color:var(--tinta-suave); text-transform:uppercase; letter-spacing:.05em}
+  .evento-cuerpo{flex:1 1 auto; min-width:0}
+  .evento-cuerpo .ico{font-size:1.05rem; margin-right:6px}
+  .evento-cuerpo p{margin:2px 0 0; font-size:1.02rem}
+  .etq-proximo{
+    display:inline-block; font-family:var(--display); font-weight:700;
+    font-size:.72rem; letter-spacing:.06em; text-transform:uppercase;
+    color:#fff; background:var(--rojo); padding:2px 8px; border-radius:999px;
+    margin-bottom:4px;
+  }
+
+  /* ---------- Colaboradores ---------- */
+  .seccion{max-width:760px; margin:0 auto; padding:28px 16px}
+  .seccion h2{
+    font-family:var(--display); font-weight:800; font-size:1.5rem;
+    text-align:center; margin:0 0 4px;
+  }
+  .seccion .sub{text-align:center; color:var(--tinta-suave); margin:0 0 20px; font-size:.95rem}
+  .logos-grid{display:grid; grid-template-columns:repeat(auto-fill,minmax(140px,1fr)); gap:12px}
+  .logo-hueco{
+    aspect-ratio:3/2; display:flex; align-items:center; justify-content:center;
+    text-align:center; border:1.5px dashed var(--linea); border-radius:12px;
+    background:var(--papel); color:var(--tinta-suave); font-size:.82rem;
+    padding:8px;
+  }
+  /* Para un logo real, sustituye el .logo-hueco por:
+     <a class="logo" href="#"><img src="logos/nombre.png" alt="Nombre del colaborador"></a> */
+
+  /* ---------- Footer ---------- */
+  footer{
+    background:var(--tinta); color:var(--crema); text-align:center;
+    padding:34px 20px 40px; margin-top:14px;
+  }
+  footer .org{font-family:var(--display); font-weight:700; font-size:1.05rem; margin:0 0 4px}
+  footer .col{margin:0 0 16px; color:#E7D9BE; font-size:.95rem}
+  footer .meta{font-size:.85rem; color:#B7A98F; margin:4px 0}
+  footer .bunting{border-top-color:var(--crema); margin-bottom:22px}
+
+  @media (max-width:480px){
+    body{font-size:16px}
+    .hero-inner{padding-top:20px}
+    .estado{text-align:center}
+  }
+
+  /* Animación (solo si el usuario no pide movimiento reducido) */
+  @media (prefers-reduced-motion:no-preference){
+    .flag{animation:ondular 3.2s ease-in-out infinite}
+    .flag:nth-child(2n){animation-delay:-1.6s}
+    .flag:nth-child(3n){animation-delay:-.8s}
+    @keyframes ondular{0%,100%{transform:rotate(-3deg)}50%{transform:rotate(3deg)}}
+    #programa .evento{animation:aparecer .28s ease both}
+    @keyframes aparecer{from{opacity:0; transform:translateY(6px)}to{opacity:1; transform:none}}
+  }
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <div class="bunting" id="bunting" aria-hidden="true"></div>
+  <div class="hero-inner">
+    <p class="eyebrow">Fiestas de</p>
+    <h1 class="titulo">San Roque</h1>
+    <p class="lugar">Valdeobispo · Cáceres</p>
+    <p class="fechas" id="rango">13 – 17 de agosto de 2025</p>
+    <div class="estado" id="estado"><span class="punto"></span><span id="estado-txt">Cargando programa…</span></div>
+  </div>
+</header>
+
+<nav class="dias-nav" id="diasNav" aria-label="Días de fiesta"></nav>
+
+<main>
+  <section id="programa" aria-live="polite"></section>
+</main>
+
+<section class="seccion">
+  <h2>Con la colaboración de</h2>
+  <p class="sub">Gracias a los negocios y vecinos que hacen posibles las fiestas.</p>
+  <div class="logos-grid" id="logos"></div>
+</section>
+
+<footer>
+  <div class="bunting" aria-hidden="true"></div>
+  <p class="org">Organiza: Ayuntamiento de Valdeobispo · Concejalía de Festejos</p>
+  <p class="col">Colabora: Ludoteca Municipal</p>
+  <p class="meta">Valdeobispo · Cáceres · Extremadura</p>
+  <p class="meta">Programa sujeto a posibles cambios.</p>
+</footer>
+
+<script>
+/* ═══════════════════════════════════════════════════════════
+   ZONA EDITABLE — actualiza aquí cada año.
+   Para 2026: cambia "edicion" y las "fecha" (formato AAAA-MM-DD)
+   y el "diaSemana". San Roque es el 16 de agosto; en 2026 los
+   días de la semana no coinciden con 2025.
+   Tipos de evento (icono): musica, cultura, fiesta, religioso,
+   charanga, verbena, atracciones.
+   ═══════════════════════════════════════════════════════════ */
+const FIESTAS = {
+  edicion: 2025,
+  dias: [
+    { diaSemana:"Miércoles", fecha:"2025-08-13", eventos:[
+      { hora:"22:00", tipo:"musica",  titulo:"Actuación musical de los niños y niñas de la ludoteca municipal." },
+      { hora:"22:30", tipo:"musica",  titulo:"Festival Folklórico de los pueblos del mundo en Extremadura. Conjunto «Hands Percussion SDN BHD», de Malasia." },
+    ]},
+    { diaSemana:"Jueves", fecha:"2025-08-14", eventos:[
+      { hora:"20:30", tipo:"cultura", titulo:"Presentación y firma de la novela «GABALGRI, destino de un amor furtivo», de la autora local Emili Saiz, en el salón de plenos del ayuntamiento." },
+      { hora:"23:30", tipo:"cultura", titulo:"Pregón de las fiestas a cargo de la escritora Emili Saiz (Cristina García Blasco) y posterior entrega de obsequios." },
+      { hora:"00:00", madrugada:true, tipo:"fiesta", titulo:"Fiesta Temática Ochentera con Leticia Sabater y Santos Music." },
+    ]},
+    { diaSemana:"Viernes", fecha:"2025-08-15", eventos:[
+      { hora:"11:30", tipo:"religioso", titulo:"Procesión y Santa Misa de Nuestra Señora." },
+      { hora:"13:00", tipo:"charanga",  titulo:"Charanga «Asamblea de Majaras»." },
+      { hora:"00:00", madrugada:true, tipo:"verbena", titulo:"Actuación del grupo El Último Pase y, a continuación, los DJ’s Dani Serra y Carlos Chaparro." },
+    ]},
+    { diaSemana:"Sábado", fecha:"2025-08-16", eventos:[
+      { hora:"11:30", tipo:"religioso", titulo:"Procesión de nuestro patrón San Roque y, a continuación, Santa Misa en su honor." },
+      { hora:"13:30", tipo:"charanga",  titulo:"Charanga «Los Pintores»." },
+      { hora:"00:00", madrugada:true, tipo:"verbena", titulo:"Gran Verbena con la Orquesta «Suroeste» y, después, DJ hasta el comienzo de la charanga." },
+    ]},
+    { diaSemana:"Domingo", fecha:"2025-08-17", eventos:[
+      { hora:"07:00", tipo:"charanga", titulo:"Charanga «Asamblea de Majaras»." },
+      { hora:"17:30", tipo:"atracciones", titulo:"Atracciones acuáticas: Kamikaze, Splash y Caribe." },
+    ]},
+  ],
+};
+
+/* Nº de colaboradores (huecos). Sustituye los huecos por logos reales. */
+const N_COLABORADORES = 10;
+
+/* ─────────── A partir de aquí, lógica de la página ─────────── */
+const ICONOS = { musica:"🎵", cultura:"📖", fiesta:"🎉", religioso:"⛪", charanga:"🎺", verbena:"🎶", atracciones:"🎡" };
+const MESES = ["enero","febrero","marzo","abril","mayo","junio","julio","agosto","septiembre","octubre","noviembre","diciembre"];
+
+let diaActivo = 0;
+
+function fechaLarga(iso){ const d=new Date(iso+"T00:00:00"); return d.getDate()+" de "+MESES[d.getMonth()]; }
+
+function pintarBanderines(){
+  document.querySelectorAll(".bunting").forEach(b=>{
+    const n = Math.max(8, Math.ceil(b.clientWidth/26));
+    b.innerHTML = Array.from({length:n},()=>'<span class="flag"></span>').join("");
+  });
+}
+
+function pintarNav(){
+  const nav = document.getElementById("diasNav");
+  nav.innerHTML = FIESTAS.dias.map((d,i)=>
+    `<button class="dia-chip" role="tab" aria-selected="${i===diaActivo}" data-i="${i}">
+       <small>${d.diaSemana}</small>${new Date(d.fecha+"T00:00:00").getDate()}
+     </button>`).join("");
+  nav.querySelectorAll(".dia-chip").forEach(btn=>{
+    btn.addEventListener("click",()=>seleccionar(+btn.dataset.i));
+    btn.addEventListener("keydown",e=>{
+      if(e.key==="ArrowRight"){e.preventDefault(); seleccionar(Math.min(FIESTAS.dias.length-1,diaActivo+1),true);}
+      if(e.key==="ArrowLeft"){e.preventDefault(); seleccionar(Math.max(0,diaActivo-1),true);}
+    });
+  });
+}
+
+function proximoEventoDe(dia){
+  const hoy = new Date();
+  if(new Date(dia.fecha+"T00:00:00").toDateString() !== hoy.toDateString()) return -1;
+  for(let j=0;j<dia.eventos.length;j++){
+    const ev=dia.eventos[j];
+    const [h,m]=ev.hora.split(":").map(Number);
+    const t=new Date(dia.fecha+"T00:00:00"); t.setHours(h,m);
+    if(ev.madrugada) t.setDate(t.getDate()+1);
+    if(t>=hoy) return j;
+  }
+  return -1;
+}
+
+function pintarPrograma(){
+  const dia = FIESTAS.dias[diaActivo];
+  const idxProx = proximoEventoDe(dia);
+  const cont = document.getElementById("programa");
+  cont.innerHTML =
+    `<h2 class="dia-titulo">${dia.diaSemana} <span>${fechaLarga(dia.fecha)}</span></h2>` +
+    dia.eventos.map((ev,j)=>`
+      <article class="evento${j===idxProx?" proximo":""}">
+        <div class="hora">${ev.hora}${ev.madrugada?"<small>madrugada</small>":""}</div>
+        <div class="evento-cuerpo">
+          ${j===idxProx?'<span class="etq-proximo">Próximo</span>':""}
+          <p><span class="ico" aria-hidden="true">${ICONOS[ev.tipo]||"•"}</span>${ev.titulo}</p>
+        </div>
+      </article>`).join("");
+}
+
+function seleccionar(i,foco){
+  diaActivo=i;
+  document.querySelectorAll(".dia-chip").forEach((b,k)=>b.setAttribute("aria-selected", k===i));
+  if(foco) document.querySelectorAll(".dia-chip")[i].focus();
+  pintarPrograma();
+}
+
+function pintarEstado(){
+  const txt=document.getElementById("estado-txt");
+  const punto=document.querySelector(".estado .punto");
+  const dias=FIESTAS.dias;
+  const hoy=new Date();
+  const primero=new Date(dias[0].fecha+"T00:00:00");
+  const ultimo=new Date(dias[dias.length-1].fecha+"T23:59:59");
+  const DIA=86400000;
+
+  if(hoy<primero){
+    const faltan=Math.ceil((primero-hoy)/DIA);
+    txt.textContent = faltan===1 ? "¡Mañana empiezan las fiestas!" : `Faltan ${faltan} días para las fiestas.`;
+  } else if(hoy>ultimo){
+    punto.style.background="var(--tinta-suave)"; punto.style.boxShadow="none";
+    txt.textContent = `Edición ${FIESTAS.edicion} finalizada. ¡Nos vemos el año que viene!`;
+  } else {
+    const idxHoy=dias.findIndex(d=>new Date(d.fecha+"T00:00:00").toDateString()===hoy.toDateString());
+    if(idxHoy>=0) diaActivo=idxHoy;
+    txt.textContent = "¡Estamos en fiestas! Hoy es "+dias[Math.max(0,idxHoy)].diaSemana.toLowerCase()+".";
+  }
+}
+
+function init(){
+  document.getElementById("rango").textContent =
+    `${fechaLarga(FIESTAS.dias[0].fecha)} – ${new Date(FIESTAS.dias.at(-1).fecha+"T00:00:00").getDate()} de ${MESES[7]} de ${FIESTAS.edicion}`;
+  document.getElementById("logos").innerHTML =
+    Array.from({length:N_COLABORADORES},()=>'<div class="logo-hueco">Espacio para colaborador</div>').join("");
+  pintarBanderines();
+  pintarEstado();   // puede ajustar diaActivo si hoy es día de fiesta
+  pintarNav();
+  seleccionar(diaActivo);
+}
+
+let t; window.addEventListener("resize",()=>{clearTimeout(t); t=setTimeout(pintarBanderines,150);});
+init();
+</script>
+</body>
+</html>
