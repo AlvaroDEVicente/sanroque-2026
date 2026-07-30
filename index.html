@@ -180,8 +180,9 @@
         font-size: 0.98rem;
         display: flex;
         gap: 10px;
-        align-items: center;
-        justify-content: center;
+        /* Al principio, no centrado: el nombre puede ocupar varias líneas y el
+           punto debe quedar a la altura de la primera, no del centro del bloque. */
+        align-items: flex-start;
         text-align: left;
       }
       .estado .punto {
@@ -191,19 +192,29 @@
         background: var(--verde);
         flex: 0 0 auto;
         box-shadow: 0 0 0 4px rgba(46, 139, 104, 0.18);
+        /* Centra el punto en la caja de la primera línea de texto. */
+        margin-top: 0.45em;
       }
-      /* Las dos líneas del bloque: «Ahora» y «Próximo». */
+      /* La línea de estado: «Ahora» o «Próximo», nunca las dos. Ocupa todo el
+         ancho disponible para que la pastilla arranque siempre en el mismo sitio,
+         dé igual lo largo que sea el nombre. */
       #estado-txt {
         display: flex;
         flex-direction: column;
-        gap: 5px;
+        flex: 1 1 auto;
         min-width: 0;
       }
       .estado-linea {
         display: flex;
         gap: 7px;
+        /* Baseline: la pastilla y la hora se alinean con la PRIMERA línea del
+           nombre, no con el centro del bloque envuelto. */
         align-items: baseline;
+        flex-wrap: nowrap;
         min-width: 0;
+        /* Gana al text-align:center que el móvil aplica a .estado, que dejaría
+           las líneas envueltas del nombre centradas y desiguales. */
+        text-align: left;
       }
       .estado-linea .etq-ahora,
       .estado-linea .etq-proximo {
@@ -219,13 +230,12 @@
         font-weight: 700;
         font-variant-numeric: tabular-nums;
       }
-      /* El nombre más largo es el del Show Big Party: si no cabe, se recorta con
-     ellipsis por CSS, nunca truncando la cadena. */
+      /* El nombre se ve completo siempre: envuelve en tantas líneas como necesite.
+         El bloque no tiene altura fija y crece con los nombres largos, que es
+         deliberado. Nada de recorte, ni de scroll, ni de letra más pequeña. */
       .estado-nombre {
         min-width: 0;
-        overflow: hidden;
-        text-overflow: ellipsis;
-        white-space: nowrap;
+        overflow-wrap: break-word;
       }
 
       /* ---------- Navegación de días ---------- */
@@ -1026,19 +1036,36 @@
         irAlPrograma();
       }
 
+      /* El punto de color está reservado a que algo esté ocurriendo. Cuando no
+         toca se saca del DOM en lugar de ocultarlo: así no arrastra un hueco a la
+         izquierda del bloque, que es lo que haría visibility o un color
+         transparente. El gris del cierre sí se mantiene, ahí informa. */
+      function ponerPunto(visible, gris) {
+        const caja = document.getElementById("estado");
+        let punto = caja.querySelector(".punto");
+        if (!visible) {
+          if (punto) punto.remove();
+          return;
+        }
+        if (!punto) {
+          punto = document.createElement("span");
+          punto.className = "punto";
+          caja.insertBefore(punto, caja.firstChild);
+        }
+        punto.style.background = gris ? "var(--tinta-suave)" : "";
+        punto.style.boxShadow = gris ? "none" : "";
+      }
+
       function pintarEstado() {
         const txt = document.getElementById("estado-txt");
-        const punto = document.querySelector(".estado .punto");
         const dias = FIESTAS.dias;
         const jornada = fechaJornada(ahora());
         /* Ambas a las 00:00: con la jornada normalizada, los días que faltan son una
      resta exacta y Math.round no puede irse de uno. */
         const primero = new Date(dias[0].fecha + "T00:00:00");
 
-        punto.style.background = "";
-        punto.style.boxShadow = ""; // el refresco reutiliza el nodo
-
         if (jornada.getTime() < primero.getTime()) {
+          ponerPunto(true, false); // la cuenta atrás conserva su punto verde
           const faltan = Math.round(
             (primero.getTime() - jornada.getTime()) / MS_DIA,
           );
@@ -1054,8 +1081,7 @@
      que seguimos en fiestas cuando la Orquesta Magia acabó a las 04:00 sería
      menos honesto que dar la edición por terminada. */
         if (!est.enCurso && !est.proximo) {
-          punto.style.background = "var(--tinta-suave)";
-          punto.style.boxShadow = "none";
+          ponerPunto(true, true); // gris: la edición terminó
           txt.textContent = `Edición ${FIESTAS.edicion} finalizada. ¡Nos vemos el año que viene!`;
           return;
         }
@@ -1065,12 +1091,14 @@
            02:00 y las 07:00 del domingo el hero dirá «Ahora Show Big Party»
            cinco horas seguidas sin mencionar la charanga de las 07:00. */
         if (est.enCurso) {
+          ponerPunto(true, false); // lo único que enciende el punto verde
           /* Sin hora: si está ocurriendo, la de inicio no aporta y ocupa sitio. */
           txt.innerHTML =
             `<span class="estado-linea"><span class="etq-ahora">Ahora</span>` +
             `<span class="estado-nombre">${est.enCurso.dia.eventos[est.enCurso.idx].titulo}</span></span>`;
           return;
         }
+        ponerPunto(false); // «Próximo» no lleva punto: nada está ocurriendo
         const ev = est.proximo.dia.eventos[est.proximo.idx];
         const dia = diaDelProximo(est.proximo);
         txt.innerHTML =
