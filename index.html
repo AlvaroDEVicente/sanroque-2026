@@ -296,15 +296,33 @@ let jornadaSincronizada = null;   // jornada con la que se movió el día activo
    así el tiempo simulado sigue avanzando y el refresco se puede observar.
    Un valor ausente o mal formado deja el reloj real, nunca lanza. */
 let desfaseReloj = 0;
+let horaSimulada = false;     // el parámetro venía y se pudo interpretar
+let trasRefrescar = null;     // gancho del panel de pruebas; null sin parámetro
 try{
   const paramAhora = new URLSearchParams(window.location.search).get("ahora");
   if(paramAhora){
     const simulada = new Date(paramAhora).getTime();
-    if(!isNaN(simulada)) desfaseReloj = simulada - Date.now();
+    if(!isNaN(simulada)){ desfaseReloj = simulada - Date.now(); horaSimulada = true; }
   }
-}catch(e){ desfaseReloj = 0; }
+}catch(e){ desfaseReloj = 0; horaSimulada = false; }
 
 function ahora(){ return new Date(Date.now() + desfaseReloj); }
+
+/* Único punto que mueve el reloj simulado. Reutiliza refrescar(), el mismo
+   repintado del refresco periódico: nada de lógica de pintado duplicada. */
+function fijarDesfase(ms){
+  desfaseReloj = ms;
+  seleccionManual = false;      // la pestaña vuelve a seguir a la jornada
+  jornadaSincronizada = null;   // fuerza el resync del día dentro de refrescar()
+  /* Se parte del mismo estado que una carga en frío: si la jornada nueva no es
+     día de fiesta, sincronizarDia() no toca nada y hay que volver al día 0, o
+     se quedaría el día heredado del salto anterior. */
+  diaActivo = 0;
+  sincronizarDia();
+  marcarChips();
+  pintarPrograma();
+  refrescar();
+}
 
 /* Fecha, a las 00:00, de la jornada festiva a la que pertenece "ref". */
 function fechaJornada(ref){
@@ -367,13 +385,18 @@ function proximoEventoDe(dia){
      carga y el acto de la 01:00 se saltaría a la 01:00:01. */
   const ref=new Date(real.getTime()); ref.setSeconds(0,0);
   for(let j=0;j<dia.eventos.length;j++){
-    const ev=dia.eventos[j];
-    const [h,m]=ev.hora.split(":").map(Number);
-    const t=new Date(dia.fecha+"T00:00:00"); t.setHours(h,m,0,0);
-    if(ev.madrugada) t.setDate(t.getDate()+1);
-    if(t.getTime()>=ref.getTime()) return j;
+    if(instanteDe(dia,dia.eventos[j]).getTime()>=ref.getTime()) return j;
   }
   return -1;
+}
+
+/* Instante real en que empieza un acto: su hora de reloj sobre la fecha de la
+   jornada, desplazada un día si es de madrugada. */
+function instanteDe(dia, ev){
+  const [h,m]=ev.hora.split(":").map(Number);
+  const t=new Date(dia.fecha+"T00:00:00"); t.setHours(h,m,0,0);
+  if(ev.madrugada) t.setDate(t.getDate()+1);
+  return t;
 }
 
 /* La etiqueta "Próximo" se pinta siempre, oculta con [hidden]. Así el refresco
@@ -488,16 +511,18 @@ function refrescar(){
   const cambioJornada = clave!==jornadaSincronizada;
   jornadaSincronizada = clave;
   pintarEstado();
+  let reconstruido = false;
   if(cambioJornada && !seleccionManual){
     const idx=indiceJornada(fechaJornada(ahora()));
     if(idx>=0 && idx!==diaActivo){
       diaActivo=idx;
       marcarChips();
       pintarPrograma();   // cambio real de jornada: aquí sí toca reconstruir
-      return;
+      reconstruido = true;
     }
   }
-  marcarProximo();
+  if(!reconstruido) marcarProximo();   // pintarPrograma() ya lo hace por su cuenta
+  if(trasRefrescar) trasRefrescar();
 }
 
 function init(){
@@ -522,6 +547,125 @@ init();
 setInterval(refrescar, REFRESCO_MS);
 window.addEventListener("pageshow", refrescar);
 document.addEventListener("visibilitychange", ()=>{ if(!document.hidden) refrescar(); });
+
+/* ═══════════════════════════════════════════════════════════
+   PANEL DE PRUEBAS — solo existe si la URL trae ?ahora=...
+   Sin el parámetro no se crea ningún nodo, no se inyecta el CSS y no se
+   registra ni un listener: la página se comporta igual que sin este bloque.
+   Lo único que queda vivo es el "if(trasRefrescar)" de refrescar(), que sin
+   panel es una comprobación contra null.
+   ═══════════════════════════════════════════════════════════ */
+const CSS_PANEL = `
+#pruebas{position:fixed; left:0; right:0; bottom:0; z-index:9999;
+  background:#14181d; color:#e6e9ee; border-top:3px dashed #8b98a8;
+  font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+  font-size:12px; line-height:1.35; padding:8px 10px 10px;
+  box-shadow:0 -6px 18px rgba(0,0,0,.35)}
+#pruebas p{margin:0}
+#pruebas .p-tit{font-weight:700; letter-spacing:.06em; text-transform:uppercase;
+  color:#ffd166; font-size:11px; margin-bottom:4px}
+#pruebas .p-hora{font-size:14px; font-weight:700; color:#fff; margin-bottom:6px}
+#pruebas .p-fila{display:flex; gap:6px; align-items:center; margin-bottom:6px; flex-wrap:wrap}
+#pruebas button{font:inherit; font-weight:700; cursor:pointer; color:#e6e9ee;
+  background:#2b323b; border:1px solid #5a6572; border-radius:6px;
+  padding:5px 8px; white-space:nowrap}
+#pruebas button:focus-visible{outline:2px solid #ffd166; outline-offset:1px}
+#pruebas .p-real{background:#7a3b3b; border-color:#b06a6a}
+#pruebas input{font:inherit; color:#e6e9ee; background:#2b323b;
+  border:1px solid #5a6572; border-radius:6px; padding:4px 6px; flex:1 1 auto; min-width:0}
+#pruebas .p-lab{color:#9aa7b6; margin-bottom:3px}
+/* Dos filas y desplazamiento horizontal: nunca scroll vertical anidado. */
+#pruebas .p-actos{display:grid; grid-auto-flow:column; grid-template-rows:repeat(2,auto);
+  gap:5px; overflow-x:auto; overflow-y:hidden; padding-bottom:4px}
+#pruebas .p-deb{color:#9aa7b6; font-size:11px; margin-top:5px}
+`;
+
+let nodoPanel = null, cssPanel = null;
+
+function dosCifras(n){ return String(n).padStart(2,"0"); }
+
+function horaLegible(d){
+  return DIAS_SEMANA[d.getDay()]+" "+d.getDate()+" de "+MESES[d.getMonth()]+" de "+
+         d.getFullYear()+", "+dosCifras(d.getHours())+":"+dosCifras(d.getMinutes());
+}
+
+function paraInput(d){
+  return d.getFullYear()+"-"+dosCifras(d.getMonth()+1)+"-"+dosCifras(d.getDate())+
+         "T"+dosCifras(d.getHours())+":"+dosCifras(d.getMinutes());
+}
+
+function construirPanel(){
+  cssPanel = document.createElement("style");
+  cssPanel.textContent = CSS_PANEL;
+  document.head.appendChild(cssPanel);
+
+  nodoPanel = document.createElement("div");
+  nodoPanel.id = "pruebas";
+  nodoPanel.innerHTML =
+    '<p class="p-tit">Panel de pruebas · esto no es el programa real</p>' +
+    '<p class="p-hora" id="p-hora"></p>' +
+    '<div class="p-fila"><input type="datetime-local" id="p-input" aria-label="Momento simulado">' +
+    '<button class="p-real" id="p-real">Hora real</button></div>' +
+    '<div class="p-fila" id="p-rel"></div>' +
+    '<p class="p-lab">Saltar al inicio de cada acto:</p>' +
+    '<div class="p-actos" id="p-actos"></div>' +
+    '<p class="p-deb" id="p-deb"></p>';
+  document.body.appendChild(nodoPanel);
+
+  const rel = nodoPanel.querySelector("#p-rel");
+  [["−1 h",-60],["−15 min",-15],["+15 min",15],["+1 h",60],["+1 día",1440]].forEach(par=>{
+    const b = document.createElement("button");
+    b.textContent = par[0];
+    b.addEventListener("click",()=>fijarDesfase(desfaseReloj + par[1]*60000));
+    rel.appendChild(b);
+  });
+
+  const actos = nodoPanel.querySelector("#p-actos");
+  FIESTAS.dias.forEach(dia=>{
+    dia.eventos.forEach(ev=>{
+      const b = document.createElement("button");
+      b.textContent = dia.diaSemana.slice(0,3)+" "+ev.hora;
+      b.addEventListener("click",()=>fijarDesfase(instanteDe(dia,ev).getTime() - Date.now()));
+      actos.appendChild(b);
+    });
+  });
+
+  nodoPanel.querySelector("#p-input").addEventListener("change",e=>{
+    const t = new Date(e.target.value).getTime();
+    if(!isNaN(t)) fijarDesfase(t - Date.now());
+  });
+  nodoPanel.querySelector("#p-real").addEventListener("click",quitarPanel);
+
+  trasRefrescar = actualizarPanel;
+  actualizarPanel();
+}
+
+function actualizarPanel(){
+  if(!nodoPanel) return;
+  const d = ahora();
+  nodoPanel.querySelector("#p-hora").textContent = horaLegible(d);
+  const input = nodoPanel.querySelector("#p-input");
+  if(document.activeElement !== input) input.value = paraInput(d);   // no pisar lo que se teclea
+  const j = fechaJornada(d);
+  nodoPanel.querySelector("#p-deb").textContent =
+    "Depuración · jornada activa: "+DIAS_SEMANA[j.getDay()]+" "+j.getDate()+" de "+
+    MESES[j.getMonth()]+" · corte: "+dosCifras(CORTE_JORNADA)+":00";
+  /* La barra es fija: sin este hueco el último acto queda debajo. */
+  document.body.style.paddingBottom = nodoPanel.offsetHeight+"px";
+}
+
+function quitarPanel(){
+  trasRefrescar = null;
+  if(cssPanel){ cssPanel.remove(); cssPanel = null; }
+  if(nodoPanel){ nodoPanel.remove(); nodoPanel = null; }
+  document.body.style.paddingBottom = "";
+  /* Quita el parámetro para que quede como si nunca hubiera venido. En file://
+     algunos navegadores lo prohíben, de ahí el try. */
+  try{ history.replaceState(null,"",window.location.pathname); }catch(e){}
+  fijarDesfase(0);
+}
+
+if(horaSimulada) construirPanel();
 </script>
 </body>
 </html>
