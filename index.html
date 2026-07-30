@@ -141,6 +141,8 @@
     color:#fff; background:var(--rojo); padding:2px 8px; border-radius:999px;
     margin-bottom:4px;
   }
+  /* El display:inline-block de arriba gana al [hidden] del navegador. */
+  .etq-proximo[hidden]{display:none}
 
   /* ---------- Footer ---------- */
   footer{
@@ -176,8 +178,8 @@
     <p class="eyebrow">Fiestas de</p>
     <h1 class="titulo">San Roque</h1>
     <p class="lugar">Valdeobispo · Cáceres</p>
-    <p class="fechas" id="rango">13 – 17 de agosto de 2025</p>
-    <div class="estado" id="estado"><span class="punto"></span><span id="estado-txt">Cargando programa…</span></div>
+    <p class="fechas" id="rango">13 – 16 de agosto de 2026</p>
+    <div class="estado" id="estado"><span class="punto"></span><span id="estado-txt">Del 13 al 16 de agosto de 2026.</span></div>
   </div>
 </header>
 
@@ -239,7 +241,46 @@ const ICONOS = { musica:"🎵", cultura:"📖", fiesta:"🎉", religioso:"⛪", 
 const MESES = ["enero","febrero","marzo","abril","mayo","junio","julio","agosto","septiembre","octubre","noviembre","diciembre"];
 const DIAS_SEMANA = ["domingo","lunes","martes","miércoles","jueves","viernes","sábado"];
 
+/* La jornada festiva no acaba a medianoche: la del sábado incluye el concierto
+   de la 01:00 del domingo. Toda la lógica temporal razona por jornada, no por
+   día natural, para no saltar de día en plena verbena. */
+const CORTE_JORNADA = 6;      // la jornada de un día llega hasta las 06:00 del siguiente
+const MS_HORA = 3600000;
+const MS_DIA = 86400000;
+const REFRESCO_MS = 60000;    // cada cuánto se repinta la página
+
 let diaActivo = 0;
+let seleccionManual = false;      // si el usuario elige día, su elección manda
+let jornadaSincronizada = null;   // jornada con la que se movió el día activo
+
+/* Admite una hora simulada por query string (?ahora=2026-08-16T01:00) para
+   poder probar la madrugada fuera de agosto. Se guarda el desfase una sola vez,
+   así el tiempo simulado sigue avanzando y el refresco se puede observar.
+   Un valor ausente o mal formado deja el reloj real, nunca lanza. */
+let desfaseReloj = 0;
+try{
+  const paramAhora = new URLSearchParams(window.location.search).get("ahora");
+  if(paramAhora){
+    const simulada = new Date(paramAhora).getTime();
+    if(!isNaN(simulada)) desfaseReloj = simulada - Date.now();
+  }
+}catch(e){ desfaseReloj = 0; }
+
+function ahora(){ return new Date(Date.now() + desfaseReloj); }
+
+/* Fecha, a las 00:00, de la jornada festiva a la que pertenece "ref". */
+function fechaJornada(ref){
+  const d = new Date(ref.getTime() - CORTE_JORNADA*MS_HORA);
+  d.setHours(0,0,0,0);
+  return d;
+}
+
+function indiceJornada(jornada){
+  for(let i=0;i<FIESTAS.dias.length;i++){
+    if(new Date(FIESTAS.dias[i].fecha+"T00:00:00").getTime()===jornada.getTime()) return i;
+  }
+  return -1;
+}
 
 function fechaLarga(iso){ const d=new Date(iso+"T00:00:00"); return d.getDate()+" de "+MESES[d.getMonth()]; }
 
@@ -266,40 +307,66 @@ function pintarNav(){
 }
 
 function proximoEventoDe(dia){
-  const hoy = new Date();
-  if(new Date(dia.fecha+"T00:00:00").toDateString() !== hoy.toDateString()) return -1;
+  const real = ahora();
+  /* El día se filtra por jornada (desplazada), pero la hora de cada evento se
+     compara con la hora real. Son dos relojes distintos: no mezclarlos. */
+  if(new Date(dia.fecha+"T00:00:00").getTime() !== fechaJornada(real).getTime()) return -1;
+  /* Truncado al minuto: el acto que empieza justo en este minuto sigue contando
+     como próximo. Sin esto, marcarlo dependería de los segundos exactos de
+     carga y el acto de la 01:00 se saltaría a la 01:00:01. */
+  const ref=new Date(real.getTime()); ref.setSeconds(0,0);
   for(let j=0;j<dia.eventos.length;j++){
     const ev=dia.eventos[j];
     const [h,m]=ev.hora.split(":").map(Number);
-    const t=new Date(dia.fecha+"T00:00:00"); t.setHours(h,m);
+    const t=new Date(dia.fecha+"T00:00:00"); t.setHours(h,m,0,0);
     if(ev.madrugada) t.setDate(t.getDate()+1);
-    if(t>=hoy) return j;
+    if(t.getTime()>=ref.getTime()) return j;
   }
   return -1;
 }
 
+/* La etiqueta "Próximo" se pinta siempre, oculta con [hidden]. Así el refresco
+   solo tiene que alternar atributos y nunca reconstruye la lista, que volvería
+   a lanzar la animación "aparecer" y haría parpadear el programa cada minuto. */
 function pintarPrograma(){
   const dia = FIESTAS.dias[diaActivo];
-  const idxProx = proximoEventoDe(dia);
   const cont = document.getElementById("programa");
   const siguienteDia = DIAS_SEMANA[(new Date(dia.fecha+"T00:00:00").getDay()+1)%7];
   cont.innerHTML =
     `<h2 class="dia-titulo">${dia.diaSemana} <span>${fechaLarga(dia.fecha)}</span></h2>` +
-    dia.eventos.map((ev,j)=>`
-      <article class="evento${j===idxProx?" proximo":""}">
+    dia.eventos.map(ev=>`
+      <article class="evento">
         <div class="hora${ev.madrugada?" nocturna":""}">${ev.hora}</div>
         <div class="evento-cuerpo">
-          ${j===idxProx?'<span class="etq-proximo">Próximo</span>':""}
+          <span class="etq-proximo" hidden>Próximo</span>
           <p><span class="ico" aria-hidden="true">${ICONOS[ev.tipo]||"•"}</span>${ev.titulo}
           ${ev.madrugada?`<span class="nota-madrugada">Madrugada del ${siguienteDia}</span>`:""}</p>
         </div>
       </article>`).join("");
+  marcarProximo();
+}
+
+function marcarProximo(){
+  const idxProx = proximoEventoDe(FIESTAS.dias[diaActivo]);
+  const arts = document.querySelectorAll("#programa .evento");
+  for(let j=0;j<arts.length;j++){
+    const es = (j===idxProx);
+    if(es) arts[j].classList.add("proximo"); else arts[j].classList.remove("proximo");
+    const etq = arts[j].querySelector(".etq-proximo");
+    if(etq){ if(es) etq.removeAttribute("hidden"); else etq.setAttribute("hidden",""); }
+  }
+}
+
+/* Solo aria-selected: repintar la nav en el refresco perdería el foco. */
+function marcarChips(){
+  document.querySelectorAll(".dia-chip").forEach((b,k)=>b.setAttribute("aria-selected", k===diaActivo));
 }
 
 function seleccionar(i,foco){
-  diaActivo=i;
-  document.querySelectorAll(".dia-chip").forEach((b,k)=>b.setAttribute("aria-selected", k===i));
-  if(foco) document.querySelectorAll(".dia-chip")[i].focus();
+  seleccionManual = true;   // desde aquí, el refresco ya no mueve el día
+  diaActivo = i;
+  marcarChips();
+  if(foco){ const chips=document.querySelectorAll(".dia-chip"); if(chips[i]) chips[i].focus(); }
   pintarPrograma();
 }
 
@@ -307,35 +374,75 @@ function pintarEstado(){
   const txt=document.getElementById("estado-txt");
   const punto=document.querySelector(".estado .punto");
   const dias=FIESTAS.dias;
-  const hoy=new Date();
+  const real=ahora();
+  const jornada=fechaJornada(real);
+  /* Ambas a las 00:00: con la jornada normalizada, los días que faltan son una
+     resta exacta y Math.round no puede irse de uno. */
   const primero=new Date(dias[0].fecha+"T00:00:00");
-  const ultimo=new Date(dias[dias.length-1].fecha+"T23:59:59");
-  const DIA=86400000;
+  const ultimo=new Date(dias[dias.length-1].fecha+"T00:00:00");
 
-  if(hoy<primero){
-    const faltan=Math.ceil((primero-hoy)/DIA);
+  punto.style.background=""; punto.style.boxShadow="";   // el refresco reutiliza el nodo
+
+  if(jornada.getTime()<primero.getTime()){
+    const faltan=Math.round((primero.getTime()-jornada.getTime())/MS_DIA);
     txt.textContent = faltan===1 ? "¡Mañana empiezan las fiestas!" : `Faltan ${faltan} días para las fiestas.`;
-  } else if(hoy>ultimo){
+  } else if(jornada.getTime()>ultimo.getTime()){
     punto.style.background="var(--tinta-suave)"; punto.style.boxShadow="none";
     txt.textContent = `Edición ${FIESTAS.edicion} finalizada. ¡Nos vemos el año que viene!`;
   } else {
-    const idxHoy=dias.findIndex(d=>new Date(d.fecha+"T00:00:00").toDateString()===hoy.toDateString());
-    if(idxHoy>=0) diaActivo=idxHoy;
-    txt.textContent = "¡Estamos en fiestas! Hoy es "+dias[Math.max(0,idxHoy)].diaSemana.toLowerCase()+".";
+    const nombre=dias[Math.max(0,indiceJornada(jornada))].diaSemana.toLowerCase();
+    /* Antes del corte el móvil ya marca el día siguiente: decir "hoy es sábado"
+       a la 01:00 del domingo chocaría. Se redacta como noche de la jornada. */
+    txt.textContent = real.getHours()<CORTE_JORNADA
+      ? `¡Estamos en fiestas! Seguimos en la noche del ${nombre}.`
+      : `¡Estamos en fiestas! Hoy es ${nombre}.`;
   }
 }
 
+function sincronizarDia(){
+  const idx=indiceJornada(fechaJornada(ahora()));
+  if(idx>=0) diaActivo=idx;
+}
+
+function refrescar(){
+  const clave=fechaJornada(ahora()).getTime();
+  const cambioJornada = clave!==jornadaSincronizada;
+  jornadaSincronizada = clave;
+  pintarEstado();
+  if(cambioJornada && !seleccionManual){
+    const idx=indiceJornada(fechaJornada(ahora()));
+    if(idx>=0 && idx!==diaActivo){
+      diaActivo=idx;
+      marcarChips();
+      pintarPrograma();   // cambio real de jornada: aquí sí toca reconstruir
+      return;
+    }
+  }
+  marcarProximo();
+}
+
 function init(){
+  const dias=FIESTAS.dias;
+  const primero=new Date(dias[0].fecha+"T00:00:00");
+  const ultimo=new Date(dias[dias.length-1].fecha+"T00:00:00");
   document.getElementById("rango").textContent =
-    `${fechaLarga(FIESTAS.dias[0].fecha)} – ${new Date(FIESTAS.dias.at(-1).fecha+"T00:00:00").getDate()} de ${MESES[7]} de ${FIESTAS.edicion}`;
+    `${primero.getDate()} – ${ultimo.getDate()} de ${MESES[primero.getMonth()]} de ${FIESTAS.edicion}`;
   pintarBanderines();
-  pintarEstado();   // puede ajustar diaActivo si hoy es día de fiesta
+  sincronizarDia();   // el día activo lo fija la jornada, no pintarEstado
+  pintarEstado();
   pintarNav();
-  seleccionar(diaActivo);
+  pintarPrograma();
+  jornadaSincronizada = fechaJornada(ahora()).getTime();
 }
 
 let t; window.addEventListener("resize",()=>{clearTimeout(t); t=setTimeout(pintarBanderines,150);});
 init();
+
+/* Repintado en vivo: quien deje la pestaña abierta o la recupere del bfcache
+   no puede quedarse con el "Próximo" de hace dos horas. */
+setInterval(refrescar, REFRESCO_MS);
+window.addEventListener("pageshow", refrescar);
+document.addEventListener("visibilitychange", ()=>{ if(!document.hidden) refrescar(); });
 </script>
 </body>
 </html>
