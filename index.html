@@ -1,245 +1,502 @@
 <!doctype html>
 <html lang="es">
-<head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Fiestas de San Roque · Valdeobispo</title>
-<meta name="description" content="Programa de las fiestas de San Roque de Valdeobispo (Cáceres). Consulta actos, horarios y días.">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Fiestas de San Roque · Valdeobispo</title>
+    <meta
+      name="description"
+      content="Programa de las fiestas de San Roque de Valdeobispo (Cáceres). Consulta actos, horarios y días."
+    />
 
-<!-- Open Graph: el enlace circula sobre todo por WhatsApp. Mismo texto que la
+    <!-- Open Graph: el enlace circula sobre todo por WhatsApp. Mismo texto que la
      meta description de arriba, para que no puedan divergir. -->
-<meta property="og:type" content="website">
-<meta property="og:url" content="https://sanroquevaldeobispo.netlify.app/">
-<meta property="og:title" content="Fiestas de San Roque · Valdeobispo">
-<meta property="og:description" content="Programa de las fiestas de San Roque de Valdeobispo (Cáceres). Consulta actos, horarios y días.">
-<meta property="og:locale" content="es_ES">
-<meta property="og:site_name" content="Fiestas de San Roque · Valdeobispo">
-<!-- og:image irá aquí cuando el cartel esté subido al repo. -->
-<meta name="twitter:card" content="summary">
+    <meta property="og:type" content="website" />
+    <meta
+      property="og:url"
+      content="https://sanroquevaldeobispo.netlify.app/"
+    />
+    <meta property="og:title" content="Fiestas de San Roque · Valdeobispo" />
+    <meta
+      property="og:description"
+      content="Programa de las fiestas de San Roque de Valdeobispo (Cáceres). Consulta actos, horarios y días."
+    />
+    <meta property="og:locale" content="es_ES" />
+    <meta
+      property="og:site_name"
+      content="Fiestas de San Roque · Valdeobispo"
+    />
+    <!-- og:image irá aquí cuando el cartel esté subido al repo. -->
+    <meta name="twitter:card" content="summary" />
 
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,700;12..96,800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-<style>
-  :root{
-    --rojo:#C4362E; --rojo-osc:#94271F;
-    --dorado:#E39A24; --dorado-cl:#F6C64C;
-    --verde:#2E8B68; --azul:#2A6E9C; --rosa:#D9557E;
-    --crema:#FBF3E1; --crema-2:#F4E7C9; --papel:#FFFCF4;
-    --tinta:#2A2019; --tinta-suave:#6E5F4E;
-    --linea:#E5D3AC;
-    --sombra:0 6px 22px rgba(70,44,20,.10);
-    --radio:16px;
-    --display:'Bricolage Grotesque', system-ui, sans-serif;
-    --cuerpo:'Inter', system-ui, -apple-system, sans-serif;
-  }
-  *{box-sizing:border-box}
-  body{
-    margin:0; font-family:var(--cuerpo); color:var(--tinta);
-    background:var(--crema); font-size:17px; line-height:1.55;
-    -webkit-font-smoothing:antialiased;
-  }
-  a{color:var(--rojo-osc)}
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,700;12..96,800&family=Inter:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      :root {
+        --rojo: #c4362e;
+        --rojo-osc: #94271f;
+        --dorado: #e39a24;
+        --dorado-cl: #f6c64c;
+        --verde: #2e8b68;
+        --azul: #2a6e9c;
+        --rosa: #d9557e;
+        --crema: #fbf3e1;
+        --crema-2: #f4e7c9;
+        --papel: #fffcf4;
+        --tinta: #2a2019;
+        --tinta-suave: #6e5f4e;
+        --linea: #e5d3ac;
+        --sombra: 0 6px 22px rgba(70, 44, 20, 0.1);
+        --radio: 16px;
+        --display: "Bricolage Grotesque", system-ui, sans-serif;
+        --cuerpo: "Inter", system-ui, -apple-system, sans-serif;
+      }
+      * {
+        box-sizing: border-box;
+      }
+      body {
+        margin: 0;
+        font-family: var(--cuerpo);
+        color: var(--tinta);
+        background: var(--crema);
+        font-size: 17px;
+        line-height: 1.55;
+        -webkit-font-smoothing: antialiased;
+      }
+      a {
+        color: var(--rojo-osc);
+      }
 
-  /* Visible solo para lectores de pantalla. Ni display:none ni
+      /* Visible solo para lectores de pantalla. Ni display:none ni
      visibility:hidden: anularían el anuncio de la región viva. */
-  .sr-only{
-    position:absolute; width:1px; height:1px; margin:-1px; padding:0;
-    overflow:hidden; clip:rect(0 0 0 0); clip-path:inset(50%);
-    white-space:nowrap; border:0;
-  }
+      .sr-only {
+        position: absolute;
+        width: 1px;
+        height: 1px;
+        margin: -1px;
+        padding: 0;
+        overflow: hidden;
+        clip: rect(0 0 0 0);
+        clip-path: inset(50%);
+        white-space: nowrap;
+        border: 0;
+      }
 
-  /* ---------- Banderines (signature) ---------- */
-  .bunting{
-    display:flex; width:100%; height:26px; overflow:hidden;
-    border-top:3px solid var(--tinta); padding:0;
-  }
-  .flag{
-    flex:1 1 auto; height:26px;
-    clip-path:polygon(0 0,100% 0,50% 100%);
-    transform-origin:top center;
-  }
-  .flag:nth-child(5n+1){background:var(--rojo)}
-  .flag:nth-child(5n+2){background:var(--dorado)}
-  .flag:nth-child(5n+3){background:var(--verde)}
-  .flag:nth-child(5n+4){background:var(--azul)}
-  .flag:nth-child(5n+5){background:var(--rosa)}
+      /* ---------- Banderines (signature) ---------- */
+      .bunting {
+        display: flex;
+        width: 100%;
+        height: 26px;
+        overflow: hidden;
+        border-top: 3px solid var(--tinta);
+        padding: 0;
+      }
+      .flag {
+        flex: 1 1 auto;
+        height: 26px;
+        clip-path: polygon(0 0, 100% 0, 50% 100%);
+        transform-origin: top center;
+      }
+      .flag:nth-child(5n + 1) {
+        background: var(--rojo);
+      }
+      .flag:nth-child(5n + 2) {
+        background: var(--dorado);
+      }
+      .flag:nth-child(5n + 3) {
+        background: var(--verde);
+      }
+      .flag:nth-child(5n + 4) {
+        background: var(--azul);
+      }
+      .flag:nth-child(5n + 5) {
+        background: var(--rosa);
+      }
 
-  /* ---------- Hero ---------- */
-  .hero{
-    text-align:center;
-    background:radial-gradient(120% 90% at 50% -10%, var(--dorado-cl) 0%, var(--crema-2) 42%, var(--crema) 100%);
-    padding-bottom:30px;
-  }
-  .hero-inner{max-width:760px; margin:0 auto; padding:26px 20px 4px}
-  .eyebrow{
-    font-family:var(--display); font-weight:700; letter-spacing:.14em;
-    text-transform:uppercase; font-size:.92rem; color:var(--rojo-osc);
-    margin:8px 0 2px;
-  }
-  .titulo{
-    font-family:var(--display); font-weight:800;
-    font-size:clamp(3rem,16vw,6.2rem); line-height:.92;
-    color:var(--rojo); margin:2px 0 6px; letter-spacing:-.01em;
-    text-wrap:balance;
-  }
-  .lugar{
-    font-family:var(--display); font-weight:600; font-size:1.15rem;
-    margin:0 0 10px; color:var(--tinta);
-  }
-  .fechas{
-    display:inline-block; font-weight:600; font-size:1rem;
-    background:var(--tinta); color:var(--crema);
-    padding:7px 16px; border-radius:999px; margin:2px 0 16px;
-  }
-  .estado{
-    max-width:520px; margin:0 auto; padding:12px 16px;
-    background:var(--papel); border:1px solid var(--linea);
-    border-radius:var(--radio); box-shadow:var(--sombra);
-    font-size:.98rem; display:flex; gap:10px; align-items:center;
-    justify-content:center; text-align:left;
-  }
-  .estado .punto{
-    width:11px; height:11px; border-radius:50%; background:var(--verde);
-    flex:0 0 auto; box-shadow:0 0 0 4px rgba(46,139,104,.18);
-  }
-  /* Las dos líneas del bloque: «Ahora» y «Próximo». */
-  #estado-txt{display:flex; flex-direction:column; gap:5px; min-width:0}
-  .estado-linea{display:flex; gap:7px; align-items:baseline; min-width:0}
-  .estado-linea .etq-ahora, .estado-linea .etq-proximo{margin-bottom:0}
-  .estado-dia{flex:0 0 auto; color:var(--tinta-suave); font-size:.9rem}
-  .estado-hora{flex:0 0 auto; font-weight:700; font-variant-numeric:tabular-nums}
-  /* El nombre más largo es el del Show Big Party: si no cabe, se recorta con
+      /* ---------- Hero ---------- */
+      .hero {
+        text-align: center;
+        background: radial-gradient(
+          120% 90% at 50% -10%,
+          var(--dorado-cl) 0%,
+          var(--crema-2) 42%,
+          var(--crema) 100%
+        );
+        padding-bottom: 30px;
+      }
+      .hero-inner {
+        max-width: 760px;
+        margin: 0 auto;
+        padding: 26px 20px 4px;
+      }
+      .eyebrow {
+        font-family: var(--display);
+        font-weight: 700;
+        letter-spacing: 0.14em;
+        text-transform: uppercase;
+        font-size: 0.92rem;
+        color: var(--rojo-osc);
+        margin: 8px 0 2px;
+      }
+      .titulo {
+        font-family: var(--display);
+        font-weight: 800;
+        font-size: clamp(3rem, 16vw, 6.2rem);
+        line-height: 0.92;
+        color: var(--rojo);
+        margin: 2px 0 6px;
+        letter-spacing: -0.01em;
+        text-wrap: balance;
+      }
+      .lugar {
+        font-family: var(--display);
+        font-weight: 600;
+        font-size: 1.15rem;
+        margin: 0 0 10px;
+        color: var(--tinta);
+      }
+      .fechas {
+        display: inline-block;
+        font-weight: 600;
+        font-size: 1rem;
+        background: var(--tinta);
+        color: var(--crema);
+        padding: 7px 16px;
+        border-radius: 999px;
+        margin: 2px 0 16px;
+      }
+      .estado {
+        max-width: 520px;
+        margin: 0 auto;
+        padding: 12px 16px;
+        background: var(--papel);
+        border: 1px solid var(--linea);
+        border-radius: var(--radio);
+        box-shadow: var(--sombra);
+        font-size: 0.98rem;
+        display: flex;
+        gap: 10px;
+        align-items: center;
+        justify-content: center;
+        text-align: left;
+      }
+      .estado .punto {
+        width: 11px;
+        height: 11px;
+        border-radius: 50%;
+        background: var(--verde);
+        flex: 0 0 auto;
+        box-shadow: 0 0 0 4px rgba(46, 139, 104, 0.18);
+      }
+      /* Las dos líneas del bloque: «Ahora» y «Próximo». */
+      #estado-txt {
+        display: flex;
+        flex-direction: column;
+        gap: 5px;
+        min-width: 0;
+      }
+      .estado-linea {
+        display: flex;
+        gap: 7px;
+        align-items: baseline;
+        min-width: 0;
+      }
+      .estado-linea .etq-ahora,
+      .estado-linea .etq-proximo {
+        margin-bottom: 0;
+      }
+      .estado-dia {
+        flex: 0 0 auto;
+        color: var(--tinta-suave);
+        font-size: 0.9rem;
+      }
+      .estado-hora {
+        flex: 0 0 auto;
+        font-weight: 700;
+        font-variant-numeric: tabular-nums;
+      }
+      /* El nombre más largo es el del Show Big Party: si no cabe, se recorta con
      ellipsis por CSS, nunca truncando la cadena. */
-  .estado-nombre{min-width:0; overflow:hidden; text-overflow:ellipsis; white-space:nowrap}
+      .estado-nombre {
+        min-width: 0;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+      }
 
-  /* ---------- Navegación de días ---------- */
-  .dias-nav{
-    position:sticky; top:0; z-index:20;
-    display:flex; gap:8px; overflow-x:auto; scrollbar-width:none;
-    padding:12px 14px; background:rgba(251,243,225,.92);
-    backdrop-filter:blur(8px); border-bottom:1px solid var(--linea);
-  }
-  .dias-nav::-webkit-scrollbar{display:none}
-  .dia-chip{
-    flex:0 0 auto; font-family:var(--display); font-weight:700;
-    font-size:.98rem; padding:10px 16px; border-radius:999px;
-    border:1.5px solid var(--linea); background:var(--papel);
-    color:var(--tinta); cursor:pointer; white-space:nowrap;
-    display:flex; flex-direction:column; align-items:center; line-height:1.1;
-    transition:transform .12s ease, background .12s ease, border-color .12s ease;
-  }
-  .dia-chip small{font-family:var(--cuerpo); font-weight:500; font-size:.72rem; color:var(--tinta-suave); text-transform:uppercase; letter-spacing:.05em}
-  .dia-chip[aria-pressed="true"]{
-    background:var(--rojo); color:#fff; border-color:var(--rojo);
-  }
-  .dia-chip[aria-pressed="true"] small{color:rgba(255,255,255,.85)}
-  .dia-chip:focus-visible{outline:3px solid var(--azul); outline-offset:2px}
+      /* ---------- Navegación de días ---------- */
+      .dias-nav {
+        position: sticky;
+        top: 0;
+        z-index: 20;
+        display: flex;
+        gap: 8px;
+        overflow-x: auto;
+        scrollbar-width: none;
+        padding: 12px 14px;
+        background: rgba(251, 243, 225, 0.92);
+        backdrop-filter: blur(8px);
+        border-bottom: 1px solid var(--linea);
+      }
+      .dias-nav::-webkit-scrollbar {
+        display: none;
+      }
+      .dia-chip {
+        flex: 0 0 auto;
+        font-family: var(--display);
+        font-weight: 700;
+        font-size: 0.98rem;
+        padding: 10px 16px;
+        border-radius: 999px;
+        border: 1.5px solid var(--linea);
+        background: var(--papel);
+        color: var(--tinta);
+        cursor: pointer;
+        white-space: nowrap;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        line-height: 1.1;
+        transition:
+          transform 0.12s ease,
+          background 0.12s ease,
+          border-color 0.12s ease;
+      }
+      .dia-chip small {
+        font-family: var(--cuerpo);
+        font-weight: 500;
+        font-size: 0.72rem;
+        color: var(--tinta-suave);
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+      }
+      .dia-chip[aria-pressed="true"] {
+        background: var(--rojo);
+        color: #fff;
+        border-color: var(--rojo);
+      }
+      .dia-chip[aria-pressed="true"] small {
+        color: rgba(255, 255, 255, 0.85);
+      }
+      .dia-chip:focus-visible {
+        outline: 3px solid var(--azul);
+        outline-offset: 2px;
+      }
 
-  /* ---------- Programa ---------- */
-  main{max-width:760px; margin:0 auto; padding:8px 16px 40px}
-  .dia-titulo{
-    font-family:var(--display); font-weight:800; font-size:1.6rem;
-    margin:22px 2px 14px; color:var(--tinta);
-  }
-  .dia-titulo span{color:var(--rojo-osc)}
-  .evento{
-    display:flex; gap:14px; align-items:flex-start;
-    background:var(--papel); border:1px solid var(--linea);
-    border-radius:var(--radio); padding:14px 16px; margin-bottom:12px;
-    box-shadow:var(--sombra);
-  }
-  /* La lista es el programa impreso: no reacciona a la hora, así que no
-     tiene estados. Las pastillas y sus clases viven solo en el hero. */
-  .hora{
-    flex:0 0 auto; font-family:var(--display); font-weight:700;
-    font-size:1.05rem; background:var(--crema-2); color:var(--tinta);
-    padding:9px 10px; border-radius:12px; min-width:66px; text-align:center;
-    line-height:1.15; font-variant-numeric:tabular-nums;
-  }
-  .hora.nocturna{background:#2E3A4A; color:#F2E6C8}
-  .evento-cuerpo{flex:1 1 auto; min-width:0}
-  .evento-cuerpo .ico{font-size:1.05rem; margin-right:6px}
-  .evento-cuerpo p{margin:2px 0 0; font-size:1.02rem}
-  .nota-madrugada{
-    display:block; margin-top:4px; font-size:.82rem; color:var(--tinta-suave);
-  }
-  /* Pastilla de estado: el vocabulario de la web son dos palabras, «Ahora» y
+      /* ---------- Programa ---------- */
+      main {
+        max-width: 760px;
+        margin: 0 auto;
+        padding: 8px 16px 40px;
+      }
+      .dia-titulo {
+        font-family: var(--display);
+        font-weight: 800;
+        font-size: 1.6rem;
+        margin: 22px 2px 14px;
+        color: var(--tinta);
+      }
+      .dia-titulo span {
+        color: var(--rojo-osc);
+      }
+      .evento {
+        display: flex;
+        gap: 14px;
+        align-items: flex-start;
+        background: var(--papel);
+        border: 1px solid var(--linea);
+        border-radius: var(--radio);
+        padding: 14px 16px;
+        margin-bottom: 12px;
+        box-shadow: var(--sombra);
+      }
+      /* La lista es el programa impreso: no reacciona a la hora, así que no
+         tiene estados. Las pastillas y sus clases viven solo en el hero. */
+      .hora {
+        flex: 0 0 auto;
+        font-family: var(--display);
+        font-weight: 700;
+        font-size: 1.05rem;
+        background: var(--crema-2);
+        color: var(--tinta);
+        padding: 9px 10px;
+        border-radius: 12px;
+        min-width: 66px;
+        text-align: center;
+        line-height: 1.15;
+        font-variant-numeric: tabular-nums;
+      }
+      .hora.nocturna {
+        background: #2e3a4a;
+        color: #f2e6c8;
+      }
+      .evento-cuerpo {
+        flex: 1 1 auto;
+        min-width: 0;
+      }
+      .evento-cuerpo .ico {
+        font-size: 1.05rem;
+        margin-right: 6px;
+      }
+      .evento-cuerpo p {
+        margin: 2px 0 0;
+        font-size: 1.02rem;
+      }
+      .nota-madrugada {
+        display: block;
+        margin-top: 4px;
+        font-size: 0.82rem;
+        color: var(--tinta-suave);
+      }
+      /* Pastilla de estado: el vocabulario de la web son dos palabras, «Ahora» y
      «Próximo». Mismo patrón visual, solo cambia el color. */
-  .etq-proximo, .etq-ahora{
-    display:inline-block; font-family:var(--display); font-weight:700;
-    font-size:.72rem; letter-spacing:.06em; text-transform:uppercase;
-    color:#fff; background:var(--rojo); padding:2px 8px; border-radius:999px;
-    margin-bottom:4px;
-  }
-  .etq-ahora{background:var(--verde)}
-  /* Ya no se oculta ninguna pastilla —el hero pinta una sola y siempre
-     visible—, pero la regla se queda como salvaguarda: el display
-     inline-block de arriba gana al [hidden] del navegador, y quien vuelva a
-     usar [hidden] sobre una pastilla se encontraría con que no oculta. */
-  .etq-proximo[hidden], .etq-ahora[hidden]{display:none}
+      .etq-proximo,
+      .etq-ahora {
+        display: inline-block;
+        font-family: var(--display);
+        font-weight: 700;
+        font-size: 0.72rem;
+        letter-spacing: 0.06em;
+        text-transform: uppercase;
+        color: #fff;
+        background: var(--rojo);
+        padding: 2px 8px;
+        border-radius: 999px;
+        margin-bottom: 4px;
+      }
+      .etq-ahora {
+        background: var(--verde);
+      }
+      /* Ya no se oculta ninguna pastilla —el hero pinta una sola y siempre
+         visible—, pero la regla se queda como salvaguarda: el display
+         inline-block de arriba gana al [hidden] del navegador, y quien vuelva a
+         usar [hidden] sobre una pastilla se encontraría con que no oculta. */
+      .etq-proximo[hidden],
+      .etq-ahora[hidden] {
+        display: none;
+      }
 
-  /* ---------- Footer ---------- */
-  footer{
-    background:var(--tinta); color:var(--crema); text-align:center;
-    padding:34px 20px 40px; margin-top:14px;
-  }
-  footer .org{font-family:var(--display); font-weight:700; font-size:1.05rem; margin:0 0 4px}
-  footer .meta{font-size:.85rem; color:#B7A98F; margin:4px 0}
-  footer .bunting{border-top-color:var(--crema); margin-bottom:22px}
+      /* ---------- Footer ---------- */
+      footer {
+        background: var(--tinta);
+        color: var(--crema);
+        text-align: center;
+        padding: 34px 20px 40px;
+        margin-top: 14px;
+      }
+      footer .org {
+        font-family: var(--display);
+        font-weight: 700;
+        font-size: 1.05rem;
+        margin: 0 0 4px;
+      }
+      footer .meta {
+        font-size: 0.85rem;
+        color: #b7a98f;
+        margin: 4px 0;
+      }
+      footer .bunting {
+        border-top-color: var(--crema);
+        margin-bottom: 22px;
+      }
 
-  @media (max-width:480px){
-    body{font-size:16px}
-    .hero-inner{padding-top:20px}
-    .estado{text-align:center}
-  }
+      @media (max-width: 480px) {
+        body {
+          font-size: 16px;
+        }
+        .hero-inner {
+          padding-top: 20px;
+        }
+        .estado {
+          text-align: center;
+        }
+      }
 
-  /* Animación (solo si el usuario no pide movimiento reducido) */
-  @media (prefers-reduced-motion:no-preference){
-    /* Aquí, y no en el ámbito global: así el scrollTo al cambiar de día es
+      /* Animación (solo si el usuario no pide movimiento reducido) */
+      @media (prefers-reduced-motion: no-preference) {
+        /* Aquí, y no en el ámbito global: así el scrollTo al cambiar de día es
        instantáneo para quien pide movimiento reducido. */
-    html{scroll-behavior:smooth}
-    .flag{animation:ondular 3.2s ease-in-out infinite}
-    .flag:nth-child(2n){animation-delay:-1.6s}
-    .flag:nth-child(3n){animation-delay:-.8s}
-    @keyframes ondular{0%,100%{transform:rotate(-3deg)}50%{transform:rotate(3deg)}}
-    #programa .evento{animation:aparecer .28s ease both}
-    @keyframes aparecer{from{opacity:0; transform:translateY(6px)}to{opacity:1; transform:none}}
-  }
-</style>
-</head>
-<body>
+        html {
+          scroll-behavior: smooth;
+        }
+        .flag {
+          animation: ondular 3.2s ease-in-out infinite;
+        }
+        .flag:nth-child(2n) {
+          animation-delay: -1.6s;
+        }
+        .flag:nth-child(3n) {
+          animation-delay: -0.8s;
+        }
+        @keyframes ondular {
+          0%,
+          100% {
+            transform: rotate(-3deg);
+          }
+          50% {
+            transform: rotate(3deg);
+          }
+        }
+        #programa .evento {
+          animation: aparecer 0.28s ease both;
+        }
+        @keyframes aparecer {
+          from {
+            opacity: 0;
+            transform: translateY(6px);
+          }
+          to {
+            opacity: 1;
+            transform: none;
+          }
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <header class="hero">
+      <div class="bunting" id="bunting" aria-hidden="true"></div>
+      <div class="hero-inner">
+        <p class="eyebrow">Fiestas de</p>
+        <h1 class="titulo">San Roque</h1>
+        <p class="lugar">Valdeobispo · Cáceres</p>
+        <p class="fechas" id="rango">13 – 16 de agosto de 2026</p>
+        <div class="estado" id="estado">
+          <span class="punto"></span
+          ><span id="estado-txt">Del 13 al 16 de agosto de 2026.</span>
+        </div>
+      </div>
+    </header>
 
-<header class="hero">
-  <div class="bunting" id="bunting" aria-hidden="true"></div>
-  <div class="hero-inner">
-    <p class="eyebrow">Fiestas de</p>
-    <h1 class="titulo">San Roque</h1>
-    <p class="lugar">Valdeobispo · Cáceres</p>
-    <p class="fechas" id="rango">13 – 16 de agosto de 2026</p>
-    <div class="estado" id="estado"><span class="punto"></span><span id="estado-txt">Del 13 al 16 de agosto de 2026.</span></div>
-  </div>
-</header>
+    <nav class="dias-nav" id="diasNav" aria-label="Días de fiesta"></nav>
 
-<nav class="dias-nav" id="diasNav" aria-label="Días de fiesta"></nav>
-
-<!-- Región viva propia: #programa se reescribe entero al cambiar de día, y con
+    <!-- Región viva propia: #programa se reescribe entero al cambiar de día, y con
      el aria-live puesto ahí el lector recitaba el programa completo cada vez. -->
-<p class="sr-only" id="aviso" role="status" aria-live="polite" aria-atomic="true"></p>
+    <p
+      class="sr-only"
+      id="aviso"
+      role="status"
+      aria-live="polite"
+      aria-atomic="true"
+    ></p>
 
-<main>
-  <section id="programa"></section>
-</main>
+    <main>
+      <section id="programa"></section>
+    </main>
 
-<footer>
-  <div class="bunting" aria-hidden="true"></div>
-  <p class="org">Organiza: Ayuntamiento de Valdeobispo</p>
-  <p class="meta">Valdeobispo · Cáceres · Extremadura</p>
-  <p class="meta">Programa sujeto a posibles cambios.</p>
-</footer>
+    <footer>
+      <div class="bunting" aria-hidden="true"></div>
+      <p class="org">Organiza: Ayuntamiento de Valdeobispo</p>
+      <p class="meta">Valdeobispo · Cáceres · Extremadura</p>
+      <p class="meta">Programa sujeto a posibles cambios.</p>
+    </footer>
 
-<script>
-/* ═══════════════════════════════════════════════════════════
+    <script>
+      /* ═══════════════════════════════════════════════════════════
    ZONA EDITABLE — actualiza aquí cada año.
    Para 2026: cambia "edicion" y las "fecha" (formato AAAA-MM-DD)
    y el "diaSemana". San Roque es el 16 de agosto; en 2026 los
@@ -263,391 +520,626 @@
    "horaTexto" es solo lo que se imprime, para el acto que el cartel anuncia
    como «24:00». Toda la lógica temporal usa siempre "hora", nunca "horaTexto".
    ═══════════════════════════════════════════════════════════ */
-const FIESTAS = {
-  edicion: 2026,
-  dias: [
-    { diaSemana:"Jueves", fecha:"2026-08-13", eventos:[
-      { hora:"17:00", fin:"20:00", tipo:"atracciones", titulo:"Atracciones infantiles: Toro mecánico, saltarina mecánica y castillos hinchables" },
-      { hora:"22:00", fin:"23:00", tipo:"musica",   titulo:"Actuación infantil de los niños y niñas de la Ludoteca" },
-      { hora:"23:00", fin:"23:30", tipo:"pregon",   titulo:"Pregón de Fiestas a cargo de Juan José Espinosa y entrega de obsequios" },
-      { hora:"23:30", fin:"01:30", tipo:"verbena",  titulo:"Concierto de <strong>Duplicados</strong>" },
-      { hora:"01:30", fin:"05:00", madrugada:true, tipo:"verbena", titulo:"DJ <strong>Diego Martín</strong>" },
-    ]},
-    { diaSemana:"Viernes", fecha:"2026-08-14", eventos:[
-      { hora:"23:30", fin:"01:30", tipo:"verbena", titulo:"Tributo a <strong>Manolo García</strong>" },
-      { hora:"01:30", fin:"03:00", madrugada:true, tipo:"verbena", titulo:"DJ <strong>Víctor Magán</strong>" },
-      { hora:"03:00", fin:"06:00", madrugada:true, tipo:"verbena", titulo:"DJ <strong>DMS</strong>" },
-    ]},
-    { diaSemana:"Sábado", fecha:"2026-08-15", eventos:[
-      { hora:"11:45", fin:"13:30", tipo:"religioso", titulo:"Procesión y Santa Misa a Nuestra Señora" },
-      { hora:"13:30", fin:"18:00", tipo:"charanga",  titulo:"Charanga <strong>Los Pintores</strong>" },
-      { hora:"00:00", horaTexto:"24:00", fin:"01:00", madrugada:true, tipo:"verbena", titulo:"DJ <strong>MB Sound</strong>" },
-      { hora:"01:00", fin:"02:00", madrugada:true, tipo:"verbena", titulo:"Concierto de <strong>La Perlita</strong>" },
-      { hora:"02:00", fin:"07:00", madrugada:true, tipo:"fiesta",  titulo:"<strong>Show Big Party</strong>: DJs, gogós y más sorpresas" },
-      { hora:"07:00", fin:"09:00", madrugada:true, tipo:"charanga", titulo:"Charanga <strong>Los Pintores</strong>" },
-    ]},
-    { diaSemana:"Domingo", fecha:"2026-08-16", eventos:[
-      { hora:"11:00", fin:"14:00", tipo:"religioso", titulo:"Procesión de nuestro Patrón San Roque y Santa Misa en su honor" },
-      { hora:"14:00", fin:"18:30", tipo:"charanga",  titulo:"Charanga <strong>Los Pintores</strong>" },
-      { hora:"23:30", fin:"04:00", tipo:"verbena",   titulo:"Orquesta <strong>Magia</strong>" },
-    ]},
-  ],
-};
+      const FIESTAS = {
+        edicion: 2026,
+        dias: [
+          {
+            diaSemana: "Jueves",
+            fecha: "2026-08-13",
+            eventos: [
+              {
+                hora: "17:00",
+                fin: "20:00",
+                tipo: "atracciones",
+                titulo:
+                  "Atracciones infantiles: Toro mecánico, saltarina mecánica y castillos hinchables",
+              },
+              {
+                hora: "22:00",
+                fin: "23:00",
+                tipo: "musica",
+                titulo:
+                  "Actuación infantil de los niños y niñas de la Ludoteca",
+              },
+              {
+                hora: "23:00",
+                fin: "23:30",
+                tipo: "pregon",
+                titulo:
+                  "Pregón de Fiestas a cargo de Juan José Espinosa y entrega de obsequios",
+              },
+              {
+                hora: "23:30",
+                fin: "01:30",
+                tipo: "verbena",
+                titulo: "Concierto de <strong>Duplicados</strong>",
+              },
+              {
+                hora: "01:30",
+                fin: "05:00",
+                madrugada: true,
+                tipo: "verbena",
+                titulo: "DJ <strong>Diego Martín</strong>",
+              },
+            ],
+          },
+          {
+            diaSemana: "Viernes",
+            fecha: "2026-08-14",
+            eventos: [
+              {
+                hora: "23:30",
+                fin: "01:30",
+                tipo: "verbena",
+                titulo: "Tributo a <strong>Manolo García</strong>",
+              },
+              {
+                hora: "01:30",
+                fin: "03:00",
+                madrugada: true,
+                tipo: "verbena",
+                titulo: "DJ <strong>Víctor Magán</strong>",
+              },
+              {
+                hora: "03:00",
+                fin: "06:00",
+                madrugada: true,
+                tipo: "verbena",
+                titulo: "DJ <strong>DMS</strong>",
+              },
+            ],
+          },
+          {
+            diaSemana: "Sábado",
+            fecha: "2026-08-15",
+            eventos: [
+              {
+                hora: "11:45",
+                fin: "13:30",
+                tipo: "religioso",
+                titulo: "Procesión y Santa Misa a Nuestra Señora",
+              },
+              {
+                hora: "13:30",
+                fin: "18:00",
+                tipo: "charanga",
+                titulo: "Charanga <strong>Los Pintores</strong>",
+              },
+              {
+                hora: "00:00",
+                horaTexto: "24:00",
+                fin: "01:00",
+                madrugada: true,
+                tipo: "verbena",
+                titulo: "DJ <strong>MB Sound</strong>",
+              },
+              {
+                hora: "01:00",
+                fin: "02:00",
+                madrugada: true,
+                tipo: "verbena",
+                titulo: "Concierto de <strong>La Perlita</strong>",
+              },
+              {
+                hora: "02:00",
+                fin: "07:00",
+                madrugada: true,
+                tipo: "fiesta",
+                titulo:
+                  "<strong>Show Big Party</strong>: DJs, gogós y más sorpresas",
+              },
+              {
+                hora: "07:00",
+                fin: "09:00",
+                madrugada: true,
+                tipo: "charanga",
+                titulo: "Charanga <strong>Los Pintores</strong>",
+              },
+            ],
+          },
+          {
+            diaSemana: "Domingo",
+            fecha: "2026-08-16",
+            eventos: [
+              {
+                hora: "11:00",
+                fin: "14:00",
+                tipo: "religioso",
+                titulo:
+                  "Procesión de nuestro Patrón San Roque y Santa Misa en su honor",
+              },
+              {
+                hora: "14:00",
+                fin: "18:30",
+                tipo: "charanga",
+                titulo: "Charanga <strong>Los Pintores</strong>",
+              },
+              {
+                hora: "23:30",
+                fin: "04:00",
+                tipo: "verbena",
+                titulo: "Orquesta <strong>Magia</strong>",
+              },
+            ],
+          },
+        ],
+      };
 
-/* ─────────── A partir de aquí, lógica de la página ─────────── */
-const ICONOS = { musica:"🎵", cultura:"📖", fiesta:"🎉", religioso:"⛪", charanga:"🎺", verbena:"🎶", atracciones:"🎡", pregon:"📣" };
-const MESES = ["enero","febrero","marzo","abril","mayo","junio","julio","agosto","septiembre","octubre","noviembre","diciembre"];
-const DIAS_SEMANA = ["domingo","lunes","martes","miércoles","jueves","viernes","sábado"];
+      /* ─────────── A partir de aquí, lógica de la página ─────────── */
+      const ICONOS = {
+        musica: "🎵",
+        cultura: "📖",
+        fiesta: "🎉",
+        religioso: "⛪",
+        charanga: "🎺",
+        verbena: "🎶",
+        atracciones: "🎡",
+        pregon: "📣",
+      };
+      const MESES = [
+        "enero",
+        "febrero",
+        "marzo",
+        "abril",
+        "mayo",
+        "junio",
+        "julio",
+        "agosto",
+        "septiembre",
+        "octubre",
+        "noviembre",
+        "diciembre",
+      ];
+      const DIAS_SEMANA = [
+        "domingo",
+        "lunes",
+        "martes",
+        "miércoles",
+        "jueves",
+        "viernes",
+        "sábado",
+      ];
 
-/* La jornada festiva no acaba a medianoche: la del sábado incluye el concierto
+      /* La jornada festiva no acaba a medianoche: la del sábado incluye el concierto
    de la 01:00 y la charanga de las 07:00 a 09:00 del domingo. Toda la lógica
    temporal razona por jornada, no por día natural, para no saltar de día en
    plena verbena. Esta constante es el único sitio que gobierna el corte, y no
    puede bajar del fin más tardío de ningún acto: el arnés lo comprueba. */
-const CORTE_JORNADA = 9;      // la jornada de un día llega hasta las 09:00 del siguiente
-/* Distinto del corte: solo decide cómo se redacta la nota de un acto que cae en
+      const CORTE_JORNADA = 9; // la jornada de un día llega hasta las 09:00 del siguiente
+      /* Distinto del corte: solo decide cómo se redacta la nota de un acto que cae en
    el día siguiente. A las 07:00 ya no es madrugada, pero sigue siendo jornada
    del sábado. No unificar con CORTE_JORNADA. */
-const HORA_MADRUGADA = 6;
-const MS_HORA = 3600000;
-const MS_DIA = 86400000;
-const REFRESCO_MS = 60000;    // cada cuánto se repinta la página
-const MARGEN_NAV = 8;         // aire entre la nav sticky y el titular del día
+      const HORA_MADRUGADA = 6;
+      const MS_HORA = 3600000;
+      const MS_DIA = 86400000;
+      const REFRESCO_MS = 60000; // cada cuánto se repinta la página
+      const MARGEN_NAV = 8; // aire entre la nav sticky y el titular del día
 
-let diaActivo = 0;
-let seleccionManual = false;      // si el usuario elige día, su elección manda
-let jornadaSincronizada = null;   // jornada con la que se movió el día activo
+      let diaActivo = 0;
+      let seleccionManual = false; // si el usuario elige día, su elección manda
+      let jornadaSincronizada = null; // jornada con la que se movió el día activo
 
-/* Admite una hora simulada por query string (?ahora=2026-08-16T01:00) para
+      /* Admite una hora simulada por query string (?ahora=2026-08-16T01:00) para
    poder probar la madrugada fuera de agosto. Se guarda el desfase una sola vez,
    así el tiempo simulado sigue avanzando y el refresco se puede observar.
    Un valor ausente o mal formado deja el reloj real, nunca lanza. */
-let desfaseReloj = 0;
-let horaSimulada = false;     // el parámetro venía y se pudo interpretar
-let trasRefrescar = null;     // gancho del panel de pruebas; null sin parámetro
-try{
-  const paramAhora = new URLSearchParams(window.location.search).get("ahora");
-  if(paramAhora){
-    const simulada = new Date(paramAhora).getTime();
-    if(!isNaN(simulada)){ desfaseReloj = simulada - Date.now(); horaSimulada = true; }
-  }
-}catch(e){ desfaseReloj = 0; horaSimulada = false; }
+      let desfaseReloj = 0;
+      let horaSimulada = false; // el parámetro venía y se pudo interpretar
+      let trasRefrescar = null; // gancho del panel de pruebas; null sin parámetro
+      try {
+        const paramAhora = new URLSearchParams(window.location.search).get(
+          "ahora",
+        );
+        if (paramAhora) {
+          const simulada = new Date(paramAhora).getTime();
+          if (!isNaN(simulada)) {
+            desfaseReloj = simulada - Date.now();
+            horaSimulada = true;
+          }
+        }
+      } catch (e) {
+        desfaseReloj = 0;
+        horaSimulada = false;
+      }
 
-function ahora(){ return new Date(Date.now() + desfaseReloj); }
+      function ahora() {
+        return new Date(Date.now() + desfaseReloj);
+      }
 
-/* Único punto que mueve el reloj simulado. Reutiliza refrescar(), el mismo
+      /* Único punto que mueve el reloj simulado. Reutiliza refrescar(), el mismo
    repintado del refresco periódico: nada de lógica de pintado duplicada. */
-function fijarDesfase(ms){
-  desfaseReloj = ms;
-  seleccionManual = false;      // la pestaña vuelve a seguir a la jornada
-  jornadaSincronizada = null;   // fuerza el resync del día dentro de refrescar()
-  /* Se parte del mismo estado que una carga en frío: si la jornada nueva no es
+      function fijarDesfase(ms) {
+        desfaseReloj = ms;
+        seleccionManual = false; // la pestaña vuelve a seguir a la jornada
+        jornadaSincronizada = null; // fuerza el resync del día dentro de refrescar()
+        /* Se parte del mismo estado que una carga en frío: si la jornada nueva no es
      día de fiesta, sincronizarDia() no toca nada y hay que volver al día 0, o
      se quedaría el día heredado del salto anterior. */
-  diaActivo = 0;
-  sincronizarDia();
-  marcarChips();
-  pintarPrograma();
-  refrescar();
-}
+        diaActivo = 0;
+        sincronizarDia();
+        marcarChips();
+        pintarPrograma();
+        refrescar();
+      }
 
-/* Fecha, a las 00:00, de la jornada festiva a la que pertenece "ref". */
-function fechaJornada(ref){
-  const d = new Date(ref.getTime() - CORTE_JORNADA*MS_HORA);
-  d.setHours(0,0,0,0);
-  return d;
-}
+      /* Fecha, a las 00:00, de la jornada festiva a la que pertenece "ref". */
+      function fechaJornada(ref) {
+        const d = new Date(ref.getTime() - CORTE_JORNADA * MS_HORA);
+        d.setHours(0, 0, 0, 0);
+        return d;
+      }
 
-function indiceJornada(jornada){
-  for(let i=0;i<FIESTAS.dias.length;i++){
-    if(new Date(FIESTAS.dias[i].fecha+"T00:00:00").getTime()===jornada.getTime()) return i;
-  }
-  return -1;
-}
+      function indiceJornada(jornada) {
+        for (let i = 0; i < FIESTAS.dias.length; i++) {
+          if (
+            new Date(FIESTAS.dias[i].fecha + "T00:00:00").getTime() ===
+            jornada.getTime()
+          )
+            return i;
+        }
+        return -1;
+      }
 
-function fechaLarga(iso){ const d=new Date(iso+"T00:00:00"); return d.getDate()+" de "+MESES[d.getMonth()]; }
+      function fechaLarga(iso) {
+        const d = new Date(iso + "T00:00:00");
+        return d.getDate() + " de " + MESES[d.getMonth()];
+      }
 
-/* Nota de los actos que caen ya en el día siguiente. A partir de las 06:00 no
+      /* Nota de los actos que caen ya en el día siguiente. A partir de las 06:00 no
    se puede llamar madrugada: la charanga de las 07:00 es mañana de domingo. */
-function notaDiaSiguiente(ev, siguienteDia){
-  if(!ev.madrugada) return "";
-  const h = Number(ev.hora.split(":")[0]);
-  const cuando = h < HORA_MADRUGADA ? "Madrugada" : "Mañana";
-  return `<span class="nota-madrugada">${cuando} del ${siguienteDia}</span>`;
-}
+      function notaDiaSiguiente(ev, siguienteDia) {
+        if (!ev.madrugada) return "";
+        const h = Number(ev.hora.split(":")[0]);
+        const cuando = h < HORA_MADRUGADA ? "Madrugada" : "Mañana";
+        return `<span class="nota-madrugada">${cuando} del ${siguienteDia}</span>`;
+      }
 
-function pintarBanderines(){
-  document.querySelectorAll(".bunting").forEach(b=>{
-    const n = Math.max(8, Math.ceil(b.clientWidth/26));
-    b.innerHTML = Array.from({length:n},()=>'<span class="flag"></span>').join("");
-  });
-}
+      function pintarBanderines() {
+        document.querySelectorAll(".bunting").forEach((b) => {
+          const n = Math.max(8, Math.ceil(b.clientWidth / 26));
+          b.innerHTML = Array.from(
+            { length: n },
+            () => '<span class="flag"></span>',
+          ).join("");
+        });
+      }
 
-function pintarNav(){
-  const nav = document.getElementById("diasNav");
-  /* Botón de alternancia: no hay tablist ni tabpanel que los contenga, así que
+      function pintarNav() {
+        const nav = document.getElementById("diasNav");
+        /* Botón de alternancia: no hay tablist ni tabpanel que los contenga, así que
      el rol de pestaña anunciaba algo que no existe. El atributo de estado está
      acoplado en cuatro sitios: aquí, en marcarChips() y en los dos selectores
      CSS de .dia-chip. Si cambias uno, cambia los cuatro. */
-  nav.innerHTML = FIESTAS.dias.map((d,i)=>
-    `<button class="dia-chip" aria-pressed="${i===diaActivo}" data-i="${i}">
-       <small>${d.diaSemana}</small>${new Date(d.fecha+"T00:00:00").getDate()}
-     </button>`).join("");
-  nav.querySelectorAll(".dia-chip").forEach(btn=>{
-    btn.addEventListener("click",()=>seleccionar(+btn.dataset.i));
-    btn.addEventListener("keydown",e=>{
-      if(e.key==="ArrowRight"){e.preventDefault(); seleccionar(Math.min(FIESTAS.dias.length-1,diaActivo+1),true);}
-      if(e.key==="ArrowLeft"){e.preventDefault(); seleccionar(Math.max(0,diaActivo-1),true);}
-    });
-  });
-}
+        nav.innerHTML = FIESTAS.dias
+          .map(
+            (d, i) =>
+              `<button class="dia-chip" aria-pressed="${i === diaActivo}" data-i="${i}">
+       <small>${d.diaSemana}</small>${new Date(d.fecha + "T00:00:00").getDate()}
+     </button>`,
+          )
+          .join("");
+        nav.querySelectorAll(".dia-chip").forEach((btn) => {
+          btn.addEventListener("click", () => seleccionar(+btn.dataset.i));
+          btn.addEventListener("keydown", (e) => {
+            if (e.key === "ArrowRight") {
+              e.preventDefault();
+              seleccionar(
+                Math.min(FIESTAS.dias.length - 1, diaActivo + 1),
+                true,
+              );
+            }
+            if (e.key === "ArrowLeft") {
+              e.preventDefault();
+              seleccionar(Math.max(0, diaActivo - 1), true);
+            }
+          });
+        });
+      }
 
-/* Instante real en que empieza un acto: su hora de reloj sobre la fecha de la
+      /* Instante real en que empieza un acto: su hora de reloj sobre la fecha de la
    jornada, desplazada un día si es de madrugada. */
-function instanteDe(dia, ev){
-  const [h,m]=ev.hora.split(":").map(Number);
-  const t=new Date(dia.fecha+"T00:00:00"); t.setHours(h,m,0,0);
-  if(ev.madrugada) t.setDate(t.getDate()+1);
-  return t;
-}
+      function instanteDe(dia, ev) {
+        const [h, m] = ev.hora.split(":").map(Number);
+        const t = new Date(dia.fecha + "T00:00:00");
+        t.setHours(h, m, 0, 0);
+        if (ev.madrugada) t.setDate(t.getDate() + 1);
+        return t;
+      }
 
-/* Instante en que acaba, o null si el acto no declara fin. Regla única: si "fin"
+      /* Instante en que acaba, o null si el acto no declara fin. Regla única: si "fin"
    es menor que "hora" como cadena, cae en el día siguiente al del inicio ya
    resuelto. Con "HH:MM" a dos dígitos, comparar cadenas es comparar horas. */
-function finDe(dia, ev){
-  if(!ev.fin) return null;
-  const f=instanteDe(dia,ev);
-  const [h,m]=ev.fin.split(":").map(Number);
-  f.setHours(h,m,0,0);
-  if(ev.fin < ev.hora) f.setDate(f.getDate()+1);
-  return f.getTime();
-}
+      function finDe(dia, ev) {
+        if (!ev.fin) return null;
+        const f = instanteDe(dia, ev);
+        const [h, m] = ev.fin.split(":").map(Number);
+        f.setHours(h, m, 0, 0);
+        if (ev.fin < ev.hora) f.setDate(f.getDate() + 1);
+        return f.getTime();
+      }
 
-/* Hora de referencia truncada al minuto: el acto que empieza justo en este
+      /* Hora de referencia truncada al minuto: el acto que empieza justo en este
    minuto ya cuenta. Sin esto dependería de los segundos exactos de carga. */
-function refAhora(){
-  const r=new Date(ahora().getTime()); r.setSeconds(0,0); return r.getTime();
-}
+      function refAhora() {
+        const r = new Date(ahora().getTime());
+        r.setSeconds(0, 0);
+        return r.getTime();
+      }
 
-/* ÚNICA fuente de verdad de "qué está pasando" en un día. Devuelve los dos
+      /* ÚNICA fuente de verdad de "qué está pasando" en un día. Devuelve los dos
    índices a la vez para que el hero y la lista no puedan contradecirse.
    Un acto está en curso si inicio <= t < fin, así que en actos contiguos el
    límite pertenece al que empieza: ni solapamiento ni hueco de un minuto. */
-function estadoDe(dia, t){
-  let enCurso=-1, proximo=-1;
-  for(let j=0;j<dia.eventos.length;j++){
-    const fin=finDe(dia,dia.eventos[j]);
-    if(fin!==null && instanteDe(dia,dia.eventos[j]).getTime()<=t && t<fin){ enCurso=j; break; }
-  }
-  for(let j=0;j<dia.eventos.length;j++){
-    if(j===enCurso) continue;   // el que está en curso no es además el próximo
-    if(instanteDe(dia,dia.eventos[j]).getTime()>=t){ proximo=j; break; }
-  }
-  return { enCurso, proximo };
-}
+      function estadoDe(dia, t) {
+        let enCurso = -1,
+          proximo = -1;
+        for (let j = 0; j < dia.eventos.length; j++) {
+          const fin = finDe(dia, dia.eventos[j]);
+          if (
+            fin !== null &&
+            instanteDe(dia, dia.eventos[j]).getTime() <= t &&
+            t < fin
+          ) {
+            enCurso = j;
+            break;
+          }
+        }
+        for (let j = 0; j < dia.eventos.length; j++) {
+          if (j === enCurso) continue; // el que está en curso no es además el próximo
+          if (instanteDe(dia, dia.eventos[j]).getTime() >= t) {
+            proximo = j;
+            break;
+          }
+        }
+        return { enCurso, proximo };
+      }
 
-/* Solo lo consume el hero: la lista es un cartel fijo y no marca nada.
-   El acto en curso solo puede ser de la jornada activa, pero el
+      /* Solo lo consume el hero: la lista es un cartel fijo y no marca nada.
+         El acto en curso solo puede ser de la jornada activa, pero el
    próximo puede estar en días posteriores. A las 06:30 del viernes es más útil
    decir que lo siguiente es esa noche que decir que no queda nada. */
-function estadoHero(){
-  const t=refAhora();
-  const idx=indiceJornada(fechaJornada(ahora()));
-  let enCurso=null, proximo=null;
-  if(idx>=0){
-    const dia=FIESTAS.dias[idx];
-    const e=estadoDe(dia,t);
-    if(e.enCurso>=0) enCurso={ dia, idx:e.enCurso };
-    if(e.proximo>=0) proximo={ dia, idx:e.proximo };
-  }
-  if(!proximo){
-    for(let i=(idx>=0?idx+1:0); i<FIESTAS.dias.length && !proximo; i++){
-      const dia=FIESTAS.dias[i];
-      for(let j=0;j<dia.eventos.length;j++){
-        if(instanteDe(dia,dia.eventos[j]).getTime()>=t){ proximo={ dia, idx:j }; break; }
+      function estadoHero() {
+        const t = refAhora();
+        const idx = indiceJornada(fechaJornada(ahora()));
+        let enCurso = null,
+          proximo = null;
+        if (idx >= 0) {
+          const dia = FIESTAS.dias[idx];
+          const e = estadoDe(dia, t);
+          if (e.enCurso >= 0) enCurso = { dia, idx: e.enCurso };
+          if (e.proximo >= 0) proximo = { dia, idx: e.proximo };
+        }
+        if (!proximo) {
+          for (
+            let i = idx >= 0 ? idx + 1 : 0;
+            i < FIESTAS.dias.length && !proximo;
+            i++
+          ) {
+            const dia = FIESTAS.dias[i];
+            for (let j = 0; j < dia.eventos.length; j++) {
+              if (instanteDe(dia, dia.eventos[j]).getTime() >= t) {
+                proximo = { dia, idx: j };
+                break;
+              }
+            }
+          }
+        }
+        return { enCurso, proximo };
       }
-    }
-  }
-  return { enCurso, proximo };
-}
 
-/* El chip oscuro depende de la hora de inicio, no de madrugada: la charanga de
+      /* El chip oscuro depende de la hora de inicio, no de madrugada: la charanga de
    las 07:00 no es de noche aunque su acto pertenezca a la jornada anterior. */
-function esNocturna(ev){ return Number(ev.hora.split(":")[0]) < HORA_MADRUGADA; }
+      function esNocturna(ev) {
+        return Number(ev.hora.split(":")[0]) < HORA_MADRUGADA;
+      }
 
-/* Solo se nombra el día si el próximo acto es de otra jornada Y además de otro
+      /* Solo se nombra el día si el próximo acto es de otra jornada Y además de otro
    día de calendario. Con los datos de 2026 no llega a cumplirse nunca; queda
    para ediciones futuras con huecos que crucen días de verdad. */
-function diaDelProximo(prox){
-  if(!prox) return "";
-  if(new Date(prox.dia.fecha+"T00:00:00").getTime() === fechaJornada(ahora()).getTime()) return "";
-  const inicio=instanteDe(prox.dia, prox.dia.eventos[prox.idx]);
-  const hoy=new Date(ahora().getTime()); hoy.setHours(0,0,0,0);
-  const suDia=new Date(inicio.getTime()); suDia.setHours(0,0,0,0);
-  if(suDia.getTime()===hoy.getTime()) return "";
-  return DIAS_SEMANA[inicio.getDay()];
-}
+      function diaDelProximo(prox) {
+        if (!prox) return "";
+        if (
+          new Date(prox.dia.fecha + "T00:00:00").getTime() ===
+          fechaJornada(ahora()).getTime()
+        )
+          return "";
+        const inicio = instanteDe(prox.dia, prox.dia.eventos[prox.idx]);
+        const hoy = new Date(ahora().getTime());
+        hoy.setHours(0, 0, 0, 0);
+        const suDia = new Date(inicio.getTime());
+        suDia.setHours(0, 0, 0, 0);
+        if (suDia.getTime() === hoy.getTime()) return "";
+        return DIAS_SEMANA[inicio.getDay()];
+      }
 
-/* El programa impreso: idéntico a cualquier hora del día. Solo se repinta al
-   cambiar de día, nunca en el refresco periódico, así que la animación
-   "aparecer" no puede parpadear. */
-function pintarPrograma(){
-  const dia = FIESTAS.dias[diaActivo];
-  const cont = document.getElementById("programa");
-  const siguienteDia = DIAS_SEMANA[(new Date(dia.fecha+"T00:00:00").getDay()+1)%7];
-  cont.innerHTML =
-    `<h2 class="dia-titulo">${dia.diaSemana} <span>${fechaLarga(dia.fecha)}</span></h2>` +
-    dia.eventos.map(ev=>`
+      /* El programa impreso: idéntico a cualquier hora del día. Solo se repinta al
+         cambiar de día, nunca en el refresco periódico, así que la animación
+         "aparecer" no puede parpadear. */
+      function pintarPrograma() {
+        const dia = FIESTAS.dias[diaActivo];
+        const cont = document.getElementById("programa");
+        const siguienteDia =
+          DIAS_SEMANA[(new Date(dia.fecha + "T00:00:00").getDay() + 1) % 7];
+        cont.innerHTML =
+          `<h2 class="dia-titulo">${dia.diaSemana} <span>${fechaLarga(dia.fecha)}</span></h2>` +
+          dia.eventos
+            .map(
+              (ev) => `
       <article class="evento">
-        <div class="hora${esNocturna(ev)?" nocturna":""}">${ev.horaTexto||ev.hora}</div>
+        <div class="hora${esNocturna(ev) ? " nocturna" : ""}">${ev.horaTexto || ev.hora}</div>
         <div class="evento-cuerpo">
-          <p><span class="ico" aria-hidden="true">${ICONOS[ev.tipo]||"•"}</span>${ev.titulo}
+          <p><span class="ico" aria-hidden="true">${ICONOS[ev.tipo] || "•"}</span>${ev.titulo}
           ${notaDiaSiguiente(ev, siguienteDia)}</p>
         </div>
-      </article>`).join("");
-}
+      </article>`,
+            )
+            .join("");
+      }
 
-/* Solo aria-pressed: repintar la nav en el refresco perdería el foco. */
-function marcarChips(){
-  document.querySelectorAll(".dia-chip").forEach((b,k)=>b.setAttribute("aria-pressed", k===diaActivo));
-}
+      /* Solo aria-pressed: repintar la nav en el refresco perdería el foco. */
+      function marcarChips() {
+        document
+          .querySelectorAll(".dia-chip")
+          .forEach((b, k) => b.setAttribute("aria-pressed", k === diaActivo));
+      }
 
-/* Lleva el scroll al principio del programa descontando la nav sticky, que si
+      /* Lleva el scroll al principio del programa descontando la nav sticky, que si
    no tapa el titular del día. La altura se lee en vivo: cambia con el tamaño
    de fuente del navegador. */
-function irAlPrograma(){
-  const nav = document.getElementById("diasNav");
-  const prog = document.getElementById("programa");
-  if(!prog) return;
-  const alto = nav ? nav.offsetHeight : 0;
-  const y = prog.getBoundingClientRect().top + window.pageYOffset - alto - MARGEN_NAV;
-  window.scrollTo(0, Math.max(0, y));
-}
+      function irAlPrograma() {
+        const nav = document.getElementById("diasNav");
+        const prog = document.getElementById("programa");
+        if (!prog) return;
+        const alto = nav ? nav.offsetHeight : 0;
+        const y =
+          prog.getBoundingClientRect().top +
+          window.pageYOffset -
+          alto -
+          MARGEN_NAV;
+        window.scrollTo(0, Math.max(0, y));
+      }
 
-/* Una sola línea en la región viva. El programa entero ya no se anuncia. */
-function anunciarDia(){
-  const aviso = document.getElementById("aviso");
-  if(!aviso) return;
-  const dia = FIESTAS.dias[diaActivo];
-  const n = dia.eventos.length;
-  aviso.textContent = `${dia.diaSemana} ${fechaLarga(dia.fecha)}: ${n} ${n===1?"acto":"actos"} en el programa.`;
-}
+      /* Una sola línea en la región viva. El programa entero ya no se anuncia. */
+      function anunciarDia() {
+        const aviso = document.getElementById("aviso");
+        if (!aviso) return;
+        const dia = FIESTAS.dias[diaActivo];
+        const n = dia.eventos.length;
+        aviso.textContent = `${dia.diaSemana} ${fechaLarga(dia.fecha)}: ${n} ${n === 1 ? "acto" : "actos"} en el programa.`;
+      }
 
-/* Solo se llama desde el clic en un chip y las flechas del teclado: nunca en la
+      /* Solo se llama desde el clic en un chip y las flechas del teclado: nunca en la
    carga inicial, ni en el refresco, ni en el cambio automático de jornada. Por
    eso el scroll y el anuncio pueden vivir aquí sin más condiciones. */
-function seleccionar(i,foco){
-  seleccionManual = true;   // desde aquí, el refresco ya no mueve el día
-  diaActivo = i;
-  marcarChips();
-  /* preventScroll: el focus() ya arrastra el scroll por su cuenta y se
+      function seleccionar(i, foco) {
+        seleccionManual = true; // desde aquí, el refresco ya no mueve el día
+        diaActivo = i;
+        marcarChips();
+        /* preventScroll: el focus() ya arrastra el scroll por su cuenta y se
      sumaría al de irAlPrograma(), dando dos saltos por pulsación. */
-  if(foco){ const chips=document.querySelectorAll(".dia-chip"); if(chips[i]) chips[i].focus({preventScroll:true}); }
-  pintarPrograma();
-  anunciarDia();
-  irAlPrograma();
-}
+        if (foco) {
+          const chips = document.querySelectorAll(".dia-chip");
+          if (chips[i]) chips[i].focus({ preventScroll: true });
+        }
+        pintarPrograma();
+        anunciarDia();
+        irAlPrograma();
+      }
 
-function pintarEstado(){
-  const txt=document.getElementById("estado-txt");
-  const punto=document.querySelector(".estado .punto");
-  const dias=FIESTAS.dias;
-  const jornada=fechaJornada(ahora());
-  /* Ambas a las 00:00: con la jornada normalizada, los días que faltan son una
+      function pintarEstado() {
+        const txt = document.getElementById("estado-txt");
+        const punto = document.querySelector(".estado .punto");
+        const dias = FIESTAS.dias;
+        const jornada = fechaJornada(ahora());
+        /* Ambas a las 00:00: con la jornada normalizada, los días que faltan son una
      resta exacta y Math.round no puede irse de uno. */
-  const primero=new Date(dias[0].fecha+"T00:00:00");
+        const primero = new Date(dias[0].fecha + "T00:00:00");
 
-  punto.style.background=""; punto.style.boxShadow="";   // el refresco reutiliza el nodo
+        punto.style.background = "";
+        punto.style.boxShadow = ""; // el refresco reutiliza el nodo
 
-  if(jornada.getTime()<primero.getTime()){
-    const faltan=Math.round((primero.getTime()-jornada.getTime())/MS_DIA);
-    txt.textContent = faltan===1 ? "¡Mañana empiezan las fiestas!" : `Faltan ${faltan} días para las fiestas.`;
-    return;
-  }
+        if (jornada.getTime() < primero.getTime()) {
+          const faltan = Math.round(
+            (primero.getTime() - jornada.getTime()) / MS_DIA,
+          );
+          txt.textContent =
+            faltan === 1
+              ? "¡Mañana empiezan las fiestas!"
+              : `Faltan ${faltan} días para las fiestas.`;
+          return;
+        }
 
-  const est=estadoHero();
-  /* Se cierra en cuanto no queda nada por delante, sin esperar al corte: decir
+        const est = estadoHero();
+        /* Se cierra en cuanto no queda nada por delante, sin esperar al corte: decir
      que seguimos en fiestas cuando la Orquesta Magia acabó a las 04:00 sería
      menos honesto que dar la edición por terminada. */
-  if(!est.enCurso && !est.proximo){
-    punto.style.background="var(--tinta-suave)"; punto.style.boxShadow="none";
-    txt.textContent = `Edición ${FIESTAS.edicion} finalizada. ¡Nos vemos el año que viene!`;
-    return;
-  }
+        if (!est.enCurso && !est.proximo) {
+          punto.style.background = "var(--tinta-suave)";
+          punto.style.boxShadow = "none";
+          txt.textContent = `Edición ${FIESTAS.edicion} finalizada. ¡Nos vemos el año que viene!`;
+          return;
+        }
 
-  /* Una sola línea, nunca dos: «Próximo» es el respaldo de cuando no hay
-     nada en curso, no un acompañamiento. Consecuencia aceptada: entre las
-     02:00 y las 07:00 del domingo el hero dirá «Ahora Show Big Party»
-     cinco horas seguidas sin mencionar la charanga de las 07:00. */
-  if(est.enCurso){
-    /* Sin hora: si está ocurriendo, la de inicio no aporta y ocupa sitio. */
-    txt.innerHTML = `<span class="estado-linea"><span class="etq-ahora">Ahora</span>` +
-      `<span class="estado-nombre">${est.enCurso.dia.eventos[est.enCurso.idx].titulo}</span></span>`;
-    return;
-  }
-  const ev=est.proximo.dia.eventos[est.proximo.idx];
-  const dia=diaDelProximo(est.proximo);
-  txt.innerHTML =
-    `<span class="estado-linea"><span class="etq-proximo">Próximo</span>` +
-    (dia?`<span class="estado-dia">${dia}</span>`:"") +
-    `<span class="estado-hora">${ev.horaTexto||ev.hora}</span>` +
-    `<span class="estado-nombre">${ev.titulo}</span></span>`;
-}
+        /* Una sola línea, nunca dos: «Próximo» es el respaldo de cuando no hay
+           nada en curso, no un acompañamiento. Consecuencia aceptada: entre las
+           02:00 y las 07:00 del domingo el hero dirá «Ahora Show Big Party»
+           cinco horas seguidas sin mencionar la charanga de las 07:00. */
+        if (est.enCurso) {
+          /* Sin hora: si está ocurriendo, la de inicio no aporta y ocupa sitio. */
+          txt.innerHTML =
+            `<span class="estado-linea"><span class="etq-ahora">Ahora</span>` +
+            `<span class="estado-nombre">${est.enCurso.dia.eventos[est.enCurso.idx].titulo}</span></span>`;
+          return;
+        }
+        const ev = est.proximo.dia.eventos[est.proximo.idx];
+        const dia = diaDelProximo(est.proximo);
+        txt.innerHTML =
+          `<span class="estado-linea"><span class="etq-proximo">Próximo</span>` +
+          (dia ? `<span class="estado-dia">${dia}</span>` : "") +
+          `<span class="estado-hora">${ev.horaTexto || ev.hora}</span>` +
+          `<span class="estado-nombre">${ev.titulo}</span></span>`;
+      }
 
-function sincronizarDia(){
-  const idx=indiceJornada(fechaJornada(ahora()));
-  if(idx>=0) diaActivo=idx;
-}
+      function sincronizarDia() {
+        const idx = indiceJornada(fechaJornada(ahora()));
+        if (idx >= 0) diaActivo = idx;
+      }
 
-function refrescar(){
-  const clave=fechaJornada(ahora()).getTime();
-  const cambioJornada = clave!==jornadaSincronizada;
-  jornadaSincronizada = clave;
-  pintarEstado();
-  /* Lo único que el refresco toca de #programa es repintarlo cuando cambia
-     la jornada, y por el cambio de día, no por el estado de los actos. */
-  if(cambioJornada && !seleccionManual){
-    const idx=indiceJornada(fechaJornada(ahora()));
-    if(idx>=0 && idx!==diaActivo){
-      diaActivo=idx;
-      marcarChips();
-      pintarPrograma();
-    }
-  }
-  if(trasRefrescar) trasRefrescar();
-}
+      function refrescar() {
+        const clave = fechaJornada(ahora()).getTime();
+        const cambioJornada = clave !== jornadaSincronizada;
+        jornadaSincronizada = clave;
+        pintarEstado();
+        /* Lo único que el refresco toca de #programa es repintarlo cuando cambia
+           la jornada, y por el cambio de día, no por el estado de los actos. */
+        if (cambioJornada && !seleccionManual) {
+          const idx = indiceJornada(fechaJornada(ahora()));
+          if (idx >= 0 && idx !== diaActivo) {
+            diaActivo = idx;
+            marcarChips();
+            pintarPrograma();
+          }
+        }
+        if (trasRefrescar) trasRefrescar();
+      }
 
-function init(){
-  const dias=FIESTAS.dias;
-  const primero=new Date(dias[0].fecha+"T00:00:00");
-  const ultimo=new Date(dias[dias.length-1].fecha+"T00:00:00");
-  document.getElementById("rango").textContent =
-    `${primero.getDate()} – ${ultimo.getDate()} de ${MESES[primero.getMonth()]} de ${FIESTAS.edicion}`;
-  pintarBanderines();
-  sincronizarDia();   // el día activo lo fija la jornada, no pintarEstado
-  pintarEstado();
-  pintarNav();
-  pintarPrograma();
-  jornadaSincronizada = fechaJornada(ahora()).getTime();
-}
+      function init() {
+        const dias = FIESTAS.dias;
+        const primero = new Date(dias[0].fecha + "T00:00:00");
+        const ultimo = new Date(dias[dias.length - 1].fecha + "T00:00:00");
+        document.getElementById("rango").textContent =
+          `${primero.getDate()} – ${ultimo.getDate()} de ${MESES[primero.getMonth()]} de ${FIESTAS.edicion}`;
+        pintarBanderines();
+        sincronizarDia(); // el día activo lo fija la jornada, no pintarEstado
+        pintarEstado();
+        pintarNav();
+        pintarPrograma();
+        jornadaSincronizada = fechaJornada(ahora()).getTime();
+      }
 
-let t; window.addEventListener("resize",()=>{clearTimeout(t); t=setTimeout(pintarBanderines,150);});
-init();
+      let t;
+      window.addEventListener("resize", () => {
+        clearTimeout(t);
+        t = setTimeout(pintarBanderines, 150);
+      });
+      init();
 
-/* Repintado en vivo: quien deje la pestaña abierta o la recupere del bfcache
+      /* Repintado en vivo: quien deje la pestaña abierta o la recupere del bfcache
    no puede quedarse con el "Próximo" de hace dos horas. */
-setInterval(refrescar, REFRESCO_MS);
-window.addEventListener("pageshow", refrescar);
-document.addEventListener("visibilitychange", ()=>{ if(!document.hidden) refrescar(); });
+      setInterval(refrescar, REFRESCO_MS);
+      window.addEventListener("pageshow", refrescar);
+      document.addEventListener("visibilitychange", () => {
+        if (!document.hidden) refrescar();
+      });
 
-/* ═══════════════════════════════════════════════════════════
+      /* ═══════════════════════════════════════════════════════════
    PANEL DE PRUEBAS — solo existe si la URL trae ?ahora=...
    Sin el parámetro no se crea ningún nodo, no se inyecta el CSS y no se
    registra ni un listener: la página se comporta igual que sin este bloque.
    Lo único que queda vivo es el "if(trasRefrescar)" de refrescar(), que sin
    panel es una comprobación contra null.
    ═══════════════════════════════════════════════════════════ */
-const CSS_PANEL = `
+      const CSS_PANEL = `
 #pruebas{position:fixed; left:0; right:0; bottom:0; z-index:9999;
   background:#14181d; color:#e6e9ee; border-top:3px dashed #8b98a8;
   font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
@@ -673,120 +1165,179 @@ const CSS_PANEL = `
 #pruebas .p-deb{color:#9aa7b6; font-size:11px; margin-top:5px}
 `;
 
-/* Momentos que hay que inspeccionar y que a mano solo se alcanzan a base de
-   ±15 min. Atados a la edición de 2026, como el resto del panel. */
-const MOMENTOS = [
-  ["Jue 21:00","2026-08-13T21:00"], ["Vie 06:30","2026-08-14T06:30"],
-  ["Sáb 19:00","2026-08-15T19:00"], ["Dom 08:00","2026-08-16T08:00"],
-  ["Dom 09:30","2026-08-16T09:30"], ["Lun 05:00","2026-08-17T05:00"],
-];
+      /* Momentos que hay que inspeccionar y que a mano solo se alcanzan a base de
+         ±15 min. Atados a la edición de 2026, como el resto del panel. */
+      const MOMENTOS = [
+        ["Jue 21:00", "2026-08-13T21:00"],
+        ["Vie 06:30", "2026-08-14T06:30"],
+        ["Sáb 19:00", "2026-08-15T19:00"],
+        ["Dom 08:00", "2026-08-16T08:00"],
+        ["Dom 09:30", "2026-08-16T09:30"],
+        ["Lun 05:00", "2026-08-17T05:00"],
+      ];
 
-let nodoPanel = null, cssPanel = null, huecoPanel = null;
+      let nodoPanel = null,
+        cssPanel = null,
+        huecoPanel = null;
 
-function dosCifras(n){ return String(n).padStart(2,"0"); }
+      function dosCifras(n) {
+        return String(n).padStart(2, "0");
+      }
 
-function horaLegible(d){
-  return DIAS_SEMANA[d.getDay()]+" "+d.getDate()+" de "+MESES[d.getMonth()]+" de "+
-         d.getFullYear()+", "+dosCifras(d.getHours())+":"+dosCifras(d.getMinutes());
-}
+      function horaLegible(d) {
+        return (
+          DIAS_SEMANA[d.getDay()] +
+          " " +
+          d.getDate() +
+          " de " +
+          MESES[d.getMonth()] +
+          " de " +
+          d.getFullYear() +
+          ", " +
+          dosCifras(d.getHours()) +
+          ":" +
+          dosCifras(d.getMinutes())
+        );
+      }
 
-function paraInput(d){
-  return d.getFullYear()+"-"+dosCifras(d.getMonth()+1)+"-"+dosCifras(d.getDate())+
-         "T"+dosCifras(d.getHours())+":"+dosCifras(d.getMinutes());
-}
+      function paraInput(d) {
+        return (
+          d.getFullYear() +
+          "-" +
+          dosCifras(d.getMonth() + 1) +
+          "-" +
+          dosCifras(d.getDate()) +
+          "T" +
+          dosCifras(d.getHours()) +
+          ":" +
+          dosCifras(d.getMinutes())
+        );
+      }
 
-function construirPanel(){
-  cssPanel = document.createElement("style");
-  cssPanel.textContent = CSS_PANEL;
-  document.head.appendChild(cssPanel);
+      function construirPanel() {
+        cssPanel = document.createElement("style");
+        cssPanel.textContent = CSS_PANEL;
+        document.head.appendChild(cssPanel);
 
-  nodoPanel = document.createElement("div");
-  nodoPanel.id = "pruebas";
-  nodoPanel.innerHTML =
-    '<p class="p-tit">Panel de pruebas · esto no es el programa real</p>' +
-    '<p class="p-hora" id="p-hora"></p>' +
-    '<div class="p-fila"><input type="datetime-local" id="p-input" aria-label="Momento simulado">' +
-    '<button class="p-real" id="p-real">Hora real</button></div>' +
-    '<div class="p-fila" id="p-rel"></div>' +
-    '<p class="p-lab">Momentos intermedios:</p>' +
-    '<div class="p-momentos" id="p-momentos"></div>' +
-    '<p class="p-lab">Saltar al inicio de cada acto:</p>' +
-    '<div class="p-actos" id="p-actos"></div>' +
-    '<p class="p-deb" id="p-deb"></p>';
-  document.body.appendChild(nodoPanel);
+        nodoPanel = document.createElement("div");
+        nodoPanel.id = "pruebas";
+        nodoPanel.innerHTML =
+          '<p class="p-tit">Panel de pruebas · esto no es el programa real</p>' +
+          '<p class="p-hora" id="p-hora"></p>' +
+          '<div class="p-fila"><input type="datetime-local" id="p-input" aria-label="Momento simulado">' +
+          '<button class="p-real" id="p-real">Hora real</button></div>' +
+          '<div class="p-fila" id="p-rel"></div>' +
+          '<p class="p-lab">Momentos intermedios:</p>' +
+          '<div class="p-momentos" id="p-momentos"></div>' +
+          '<p class="p-lab">Saltar al inicio de cada acto:</p>' +
+          '<div class="p-actos" id="p-actos"></div>' +
+          '<p class="p-deb" id="p-deb"></p>';
+        document.body.appendChild(nodoPanel);
 
-  /* El hueco va DENTRO del pie, no como padding del body: así lo que queda
-     bajo el footer es su propio fondo oscuro y no aparece una franja clara
-     entre el pie y el panel cuando la jornada tiene pocos actos. */
-  const pie = document.querySelector("footer");
-  if(pie){
-    huecoPanel = document.createElement("div");
-    huecoPanel.id = "p-hueco";
-    pie.appendChild(huecoPanel);
-  }
+        /* El hueco va DENTRO del pie, no como padding del body: así lo que queda
+           bajo el footer es su propio fondo oscuro y no aparece una franja clara
+           entre el pie y el panel cuando la jornada tiene pocos actos. */
+        const pie = document.querySelector("footer");
+        if (pie) {
+          huecoPanel = document.createElement("div");
+          huecoPanel.id = "p-hueco";
+          pie.appendChild(huecoPanel);
+        }
 
-  const rel = nodoPanel.querySelector("#p-rel");
-  [["−1 h",-60],["−15 min",-15],["+15 min",15],["+1 h",60],["+1 día",1440]].forEach(par=>{
-    const b = document.createElement("button");
-    b.textContent = par[0];
-    b.addEventListener("click",()=>fijarDesfase(desfaseReloj + par[1]*60000));
-    rel.appendChild(b);
-  });
+        const rel = nodoPanel.querySelector("#p-rel");
+        [
+          ["−1 h", -60],
+          ["−15 min", -15],
+          ["+15 min", 15],
+          ["+1 h", 60],
+          ["+1 día", 1440],
+        ].forEach((par) => {
+          const b = document.createElement("button");
+          b.textContent = par[0];
+          b.addEventListener("click", () =>
+            fijarDesfase(desfaseReloj + par[1] * 60000),
+          );
+          rel.appendChild(b);
+        });
 
-  const momentos = nodoPanel.querySelector("#p-momentos");
-  MOMENTOS.forEach(par=>{
-    const b = document.createElement("button");
-    b.textContent = par[0];
-    b.addEventListener("click",()=>fijarDesfase(new Date(par[1]).getTime() - Date.now()));
-    momentos.appendChild(b);
-  });
+        const momentos = nodoPanel.querySelector("#p-momentos");
+        MOMENTOS.forEach((par) => {
+          const b = document.createElement("button");
+          b.textContent = par[0];
+          b.addEventListener("click", () =>
+            fijarDesfase(new Date(par[1]).getTime() - Date.now()),
+          );
+          momentos.appendChild(b);
+        });
 
-  const actos = nodoPanel.querySelector("#p-actos");
-  FIESTAS.dias.forEach(dia=>{
-    dia.eventos.forEach(ev=>{
-      const b = document.createElement("button");
-      b.textContent = dia.diaSemana.slice(0,3)+" "+ev.hora;
-      b.addEventListener("click",()=>fijarDesfase(instanteDe(dia,ev).getTime() - Date.now()));
-      actos.appendChild(b);
-    });
-  });
+        const actos = nodoPanel.querySelector("#p-actos");
+        FIESTAS.dias.forEach((dia) => {
+          dia.eventos.forEach((ev) => {
+            const b = document.createElement("button");
+            b.textContent = dia.diaSemana.slice(0, 3) + " " + ev.hora;
+            b.addEventListener("click", () =>
+              fijarDesfase(instanteDe(dia, ev).getTime() - Date.now()),
+            );
+            actos.appendChild(b);
+          });
+        });
 
-  nodoPanel.querySelector("#p-input").addEventListener("change",e=>{
-    const t = new Date(e.target.value).getTime();
-    if(!isNaN(t)) fijarDesfase(t - Date.now());
-  });
-  nodoPanel.querySelector("#p-real").addEventListener("click",quitarPanel);
+        nodoPanel.querySelector("#p-input").addEventListener("change", (e) => {
+          const t = new Date(e.target.value).getTime();
+          if (!isNaN(t)) fijarDesfase(t - Date.now());
+        });
+        nodoPanel
+          .querySelector("#p-real")
+          .addEventListener("click", quitarPanel);
 
-  trasRefrescar = actualizarPanel;
-  actualizarPanel();
-}
+        trasRefrescar = actualizarPanel;
+        actualizarPanel();
+      }
 
-function actualizarPanel(){
-  if(!nodoPanel) return;
-  const d = ahora();
-  nodoPanel.querySelector("#p-hora").textContent = horaLegible(d);
-  const input = nodoPanel.querySelector("#p-input");
-  if(document.activeElement !== input) input.value = paraInput(d);   // no pisar lo que se teclea
-  const j = fechaJornada(d);
-  nodoPanel.querySelector("#p-deb").textContent =
-    "Depuración · jornada activa: "+DIAS_SEMANA[j.getDay()]+" "+j.getDate()+" de "+
-    MESES[j.getMonth()]+" · corte: "+dosCifras(CORTE_JORNADA)+":00";
-  /* La barra es fija: sin este hueco el último acto queda debajo. */
-  if(huecoPanel) huecoPanel.style.height = nodoPanel.offsetHeight+"px";
-}
+      function actualizarPanel() {
+        if (!nodoPanel) return;
+        const d = ahora();
+        nodoPanel.querySelector("#p-hora").textContent = horaLegible(d);
+        const input = nodoPanel.querySelector("#p-input");
+        if (document.activeElement !== input) input.value = paraInput(d); // no pisar lo que se teclea
+        const j = fechaJornada(d);
+        nodoPanel.querySelector("#p-deb").textContent =
+          "Depuración · jornada activa: " +
+          DIAS_SEMANA[j.getDay()] +
+          " " +
+          j.getDate() +
+          " de " +
+          MESES[j.getMonth()] +
+          " · corte: " +
+          dosCifras(CORTE_JORNADA) +
+          ":00";
+        /* La barra es fija: sin este hueco el último acto queda debajo. */
+        if (huecoPanel) huecoPanel.style.height = nodoPanel.offsetHeight + "px";
+      }
 
-function quitarPanel(){
-  trasRefrescar = null;
-  if(cssPanel){ cssPanel.remove(); cssPanel = null; }
-  if(nodoPanel){ nodoPanel.remove(); nodoPanel = null; }
-  if(huecoPanel){ huecoPanel.remove(); huecoPanel = null; }
-  /* Quita el parámetro para que quede como si nunca hubiera venido. En file://
+      function quitarPanel() {
+        trasRefrescar = null;
+        if (cssPanel) {
+          cssPanel.remove();
+          cssPanel = null;
+        }
+        if (nodoPanel) {
+          nodoPanel.remove();
+          nodoPanel = null;
+        }
+        if (huecoPanel) {
+          huecoPanel.remove();
+          huecoPanel = null;
+        }
+        /* Quita el parámetro para que quede como si nunca hubiera venido. En file://
      algunos navegadores lo prohíben, de ahí el try. */
-  try{ history.replaceState(null,"",window.location.pathname); }catch(e){}
-  fijarDesfase(0);
-}
+        try {
+          history.replaceState(null, "", window.location.pathname);
+        } catch (e) {}
+        fijarDesfase(0);
+      }
 
-if(horaSimulada) construirPanel();
-</script>
-</body>
+      if (horaSimulada) construirPanel();
+    </script>
+  </body>
 </html>
