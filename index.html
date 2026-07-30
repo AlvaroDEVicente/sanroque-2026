@@ -217,7 +217,7 @@
 
 <footer>
   <div class="bunting" aria-hidden="true"></div>
-  <p class="org">Organiza: Ayuntamiento de Valdeobispo · Concejalía de Festejos</p>
+  <p class="org">Organiza: Ayuntamiento de Valdeobispo</p>
   <p class="meta">Valdeobispo · Cáceres · Extremadura</p>
   <p class="meta">Programa sujeto a posibles cambios.</p>
 </footer>
@@ -229,48 +229,59 @@
    y el "diaSemana". San Roque es el 16 de agosto; en 2026 los
    días de la semana no coinciden con 2025.
    Tipos de evento (icono): musica, cultura, fiesta, religioso,
-   charanga, verbena, atracciones.
+   charanga, verbena, atracciones, pregon.
+   Los nombres propios (grupos, DJs, orquestas) van en <strong>…</strong>
+   dentro del propio "titulo": se insertan con innerHTML. Antes iban entre
+   comillas angulares. Los títulos no llevan punto final.
+   Los actos pasada la medianoche llevan madrugada:true y su "hora" es la del
+   reloj (00:00, 01:00, 07:00…), nunca 24:00 o 25:00: un 24 en setHours ya
+   rueda al día siguiente y madrugada:true lo desplazaría por segunda vez.
    ═══════════════════════════════════════════════════════════ */
 const FIESTAS = {
   edicion: 2026,
   dias: [
     { diaSemana:"Jueves", fecha:"2026-08-13", eventos:[
-      { hora:"17:00", tipo:"atracciones", titulo:"Toro mecánico, saltarina mecánica y castillos hinchables." },
-      { hora:"22:00", tipo:"musica",   titulo:"Actuación infantil de los niños y niñas de la Ludoteca." },
-      { hora:"23:00", tipo:"cultura",  titulo:"Pregón de fiestas a cargo de Juan José Espinosa y entrega de obsequio." },
-      { hora:"23:30", tipo:"verbena",  titulo:"Concierto DUPLICADOS." },
-      { hora:"01:30", madrugada:true, tipo:"verbena", titulo:"DJ Diego Martín." },
+      { hora:"17:00", tipo:"atracciones", titulo:"Atracciones infantiles: Toro mecánico, saltarina mecánica y castillos hinchables" },
+      { hora:"22:00", tipo:"musica",   titulo:"Actuación infantil de los niños y niñas de la Ludoteca" },
+      { hora:"23:00", tipo:"pregon",   titulo:"Pregón de Fiestas a cargo de Juan José Espinosa y entrega de obsequios" },
+      { hora:"23:30", tipo:"verbena",  titulo:"Concierto de <strong>Duplicados</strong>" },
+      { hora:"01:30", madrugada:true, tipo:"verbena", titulo:"DJ <strong>Diego Martín</strong>" },
     ]},
     { diaSemana:"Viernes", fecha:"2026-08-14", eventos:[
-      { hora:"23:30", tipo:"verbena", titulo:"Tributo a Manolo García." },
-      { hora:"01:30", madrugada:true, tipo:"verbena", titulo:"DJ Víctor Magán." },
-      { hora:"03:00", madrugada:true, tipo:"verbena", titulo:"DJ DMS." },
+      { hora:"23:30", tipo:"verbena", titulo:"Tributo a <strong>Manolo García</strong>" },
+      { hora:"01:30", madrugada:true, tipo:"verbena", titulo:"DJ <strong>Víctor Magán</strong>" },
+      { hora:"03:00", madrugada:true, tipo:"verbena", titulo:"DJ <strong>DMS</strong>" },
     ]},
     { diaSemana:"Sábado", fecha:"2026-08-15", eventos:[
-      { hora:"11:45", tipo:"religioso", titulo:"Procesión y Santa Misa a Nuestra Señora." },
-      { hora:"13:30", tipo:"charanga",  titulo:"Charanga «Los Pintores»." },
-      { hora:"00:00", madrugada:true, tipo:"verbena", titulo:"DJ MB Sound." },
-      { hora:"01:00", madrugada:true, tipo:"verbena", titulo:"Concierto de La Perlita." },
-      { hora:"02:00", madrugada:true, tipo:"fiesta",  titulo:"Show Big Party: DJs, gogós y más sorpresas." },
+      { hora:"11:45", tipo:"religioso", titulo:"Procesión y Santa Misa a Nuestra Señora" },
+      { hora:"13:30", tipo:"charanga",  titulo:"Charanga <strong>Los Pintores</strong>" },
+      { hora:"00:00", madrugada:true, tipo:"verbena", titulo:"DJ <strong>MB Sound</strong>" },
+      { hora:"01:00", madrugada:true, tipo:"verbena", titulo:"Concierto de <strong>La Perlita</strong>" },
+      { hora:"02:00", madrugada:true, tipo:"fiesta",  titulo:"<strong>Show Big Party</strong>: DJs, gogós y más sorpresas" },
+      { hora:"07:00", madrugada:true, tipo:"charanga", titulo:"Charanga <strong>Los Pintores</strong>" },
     ]},
     { diaSemana:"Domingo", fecha:"2026-08-16", eventos:[
-      { hora:"07:00", tipo:"charanga",  titulo:"Charanga «Los Pintores»." },
-      { hora:"11:00", tipo:"religioso", titulo:"Procesión de nuestro Patrón San Roque y Santa Misa en su honor." },
-      { hora:"14:00", tipo:"charanga",  titulo:"Charanga «Los Pintores»." },
-      { hora:"23:30", tipo:"verbena",   titulo:"Orquesta Magia." },
+      { hora:"11:00", tipo:"religioso", titulo:"Procesión de nuestro Patrón San Roque y Santa Misa en su honor" },
+      { hora:"14:00", tipo:"charanga",  titulo:"Charanga <strong>Los Pintores</strong>" },
+      { hora:"23:30", tipo:"verbena",   titulo:"Orquesta <strong>Magia</strong>" },
     ]},
   ],
 };
 
 /* ─────────── A partir de aquí, lógica de la página ─────────── */
-const ICONOS = { musica:"🎵", cultura:"📖", fiesta:"🎉", religioso:"⛪", charanga:"🎺", verbena:"🎶", atracciones:"🎡" };
+const ICONOS = { musica:"🎵", cultura:"📖", fiesta:"🎉", religioso:"⛪", charanga:"🎺", verbena:"🎶", atracciones:"🎡", pregon:"🎆" };
 const MESES = ["enero","febrero","marzo","abril","mayo","junio","julio","agosto","septiembre","octubre","noviembre","diciembre"];
 const DIAS_SEMANA = ["domingo","lunes","martes","miércoles","jueves","viernes","sábado"];
 
 /* La jornada festiva no acaba a medianoche: la del sábado incluye el concierto
-   de la 01:00 del domingo. Toda la lógica temporal razona por jornada, no por
-   día natural, para no saltar de día en plena verbena. */
-const CORTE_JORNADA = 6;      // la jornada de un día llega hasta las 06:00 del siguiente
+   de la 01:00 y la charanga de las 07:00 del domingo. Toda la lógica temporal
+   razona por jornada, no por día natural, para no saltar de día en plena
+   verbena. Esta constante es el único sitio que gobierna el corte. */
+const CORTE_JORNADA = 8;      // la jornada de un día llega hasta las 08:00 del siguiente
+/* Distinto del corte: solo decide cómo se redacta la nota de un acto que cae en
+   el día siguiente. A las 07:00 ya no es madrugada, pero sigue siendo jornada
+   del sábado. No unificar con CORTE_JORNADA. */
+const HORA_MADRUGADA = 6;
 const MS_HORA = 3600000;
 const MS_DIA = 86400000;
 const REFRESCO_MS = 60000;    // cada cuánto se repinta la página
@@ -310,6 +321,15 @@ function indiceJornada(jornada){
 }
 
 function fechaLarga(iso){ const d=new Date(iso+"T00:00:00"); return d.getDate()+" de "+MESES[d.getMonth()]; }
+
+/* Nota de los actos que caen ya en el día siguiente. A partir de las 06:00 no
+   se puede llamar madrugada: la charanga de las 07:00 es mañana de domingo. */
+function notaDiaSiguiente(ev, siguienteDia){
+  if(!ev.madrugada) return "";
+  const h = Number(ev.hora.split(":")[0]);
+  const cuando = h < HORA_MADRUGADA ? "Madrugada" : "Mañana";
+  return `<span class="nota-madrugada">${cuando} del ${siguienteDia}</span>`;
+}
 
 function pintarBanderines(){
   document.querySelectorAll(".bunting").forEach(b=>{
@@ -371,7 +391,7 @@ function pintarPrograma(){
         <div class="evento-cuerpo">
           <span class="etq-proximo" hidden>Próximo</span>
           <p><span class="ico" aria-hidden="true">${ICONOS[ev.tipo]||"•"}</span>${ev.titulo}
-          ${ev.madrugada?`<span class="nota-madrugada">Madrugada del ${siguienteDia}</span>`:""}</p>
+          ${notaDiaSiguiente(ev, siguienteDia)}</p>
         </div>
       </article>`).join("");
   marcarProximo();
