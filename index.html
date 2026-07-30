@@ -103,6 +103,15 @@
     width:11px; height:11px; border-radius:50%; background:var(--verde);
     flex:0 0 auto; box-shadow:0 0 0 4px rgba(46,139,104,.18);
   }
+  /* Las dos líneas del bloque: «Ahora» y «Próximo». */
+  #estado-txt{display:flex; flex-direction:column; gap:5px; min-width:0}
+  .estado-linea{display:flex; gap:7px; align-items:baseline; min-width:0}
+  .estado-linea .etq-ahora, .estado-linea .etq-proximo{margin-bottom:0}
+  .estado-dia{flex:0 0 auto; color:var(--tinta-suave); font-size:.9rem}
+  .estado-hora{flex:0 0 auto; font-weight:700; font-variant-numeric:tabular-nums}
+  /* El nombre más largo es el del Show Big Party: si no cabe, se recorta con
+     ellipsis por CSS, nunca truncando la cadena. */
+  .estado-nombre{min-width:0; overflow:hidden; text-overflow:ellipsis; white-space:nowrap}
 
   /* ---------- Navegación de días ---------- */
   .dias-nav{
@@ -141,6 +150,7 @@
     box-shadow:var(--sombra);
   }
   .evento.proximo{border-color:var(--rojo); box-shadow:0 0 0 2px rgba(196,54,46,.25),var(--sombra)}
+  .evento.ahora{border-color:var(--verde); box-shadow:0 0 0 2px rgba(46,139,104,.25),var(--sombra)}
   .hora{
     flex:0 0 auto; font-family:var(--display); font-weight:700;
     font-size:1.05rem; background:var(--crema-2); color:var(--tinta);
@@ -154,14 +164,18 @@
   .nota-madrugada{
     display:block; margin-top:4px; font-size:.82rem; color:var(--tinta-suave);
   }
-  .etq-proximo{
+  /* Pastilla de estado: el vocabulario de la web son dos palabras, «Ahora» y
+     «Próximo». Mismo patrón visual, solo cambia el color. */
+  .etq-proximo, .etq-ahora{
     display:inline-block; font-family:var(--display); font-weight:700;
     font-size:.72rem; letter-spacing:.06em; text-transform:uppercase;
     color:#fff; background:var(--rojo); padding:2px 8px; border-radius:999px;
     margin-bottom:4px;
   }
-  /* El display:inline-block de arriba gana al [hidden] del navegador. */
-  .etq-proximo[hidden]{display:none}
+  .etq-ahora{background:var(--verde)}
+  /* El display:inline-block de arriba gana al [hidden] del navegador, así que
+     hay que devolvérselo a mano. Vale para las dos pastillas. */
+  .etq-proximo[hidden], .etq-ahora[hidden]{display:none}
 
   /* ---------- Footer ---------- */
   footer{
@@ -236,34 +250,44 @@
    Los actos pasada la medianoche llevan madrugada:true y su "hora" es la del
    reloj (00:00, 01:00, 07:00…), nunca 24:00 o 25:00: un 24 en setHours ya
    rueda al día siguiente y madrugada:true lo desplazaría por segunda vez.
+
+   "fin" ("HH:MM", siempre dos dígitos) NO SE MUESTRA NUNCA en la web: sirve
+   solo para saber qué acto está en curso. Si "fin" es menor que "hora" como
+   cadena, el fin cae en el día siguiente al del inicio ya resuelto. Es
+   opcional: un acto sin "fin" nunca aparece como «Ahora», y no rompe nada.
+   Cada fin debe caber dentro de la jornada de su día; si un año un acto
+   termina más tarde que CORTE_JORNADA, hay que subir el corte.
+
+   "horaTexto" es solo lo que se imprime, para el acto que el cartel anuncia
+   como «24:00». Toda la lógica temporal usa siempre "hora", nunca "horaTexto".
    ═══════════════════════════════════════════════════════════ */
 const FIESTAS = {
   edicion: 2026,
   dias: [
     { diaSemana:"Jueves", fecha:"2026-08-13", eventos:[
-      { hora:"17:00", tipo:"atracciones", titulo:"Atracciones infantiles: Toro mecánico, saltarina mecánica y castillos hinchables" },
-      { hora:"22:00", tipo:"musica",   titulo:"Actuación infantil de los niños y niñas de la Ludoteca" },
-      { hora:"23:00", tipo:"pregon",   titulo:"Pregón de Fiestas a cargo de Juan José Espinosa y entrega de obsequios" },
-      { hora:"23:30", tipo:"verbena",  titulo:"Concierto de <strong>Duplicados</strong>" },
-      { hora:"01:30", madrugada:true, tipo:"verbena", titulo:"DJ <strong>Diego Martín</strong>" },
+      { hora:"17:00", fin:"20:00", tipo:"atracciones", titulo:"Atracciones infantiles: Toro mecánico, saltarina mecánica y castillos hinchables" },
+      { hora:"22:00", fin:"23:00", tipo:"musica",   titulo:"Actuación infantil de los niños y niñas de la Ludoteca" },
+      { hora:"23:00", fin:"23:30", tipo:"pregon",   titulo:"Pregón de Fiestas a cargo de Juan José Espinosa y entrega de obsequios" },
+      { hora:"23:30", fin:"01:30", tipo:"verbena",  titulo:"Concierto de <strong>Duplicados</strong>" },
+      { hora:"01:30", fin:"05:00", madrugada:true, tipo:"verbena", titulo:"DJ <strong>Diego Martín</strong>" },
     ]},
     { diaSemana:"Viernes", fecha:"2026-08-14", eventos:[
-      { hora:"23:30", tipo:"verbena", titulo:"Tributo a <strong>Manolo García</strong>" },
-      { hora:"01:30", madrugada:true, tipo:"verbena", titulo:"DJ <strong>Víctor Magán</strong>" },
-      { hora:"03:00", madrugada:true, tipo:"verbena", titulo:"DJ <strong>DMS</strong>" },
+      { hora:"23:30", fin:"01:30", tipo:"verbena", titulo:"Tributo a <strong>Manolo García</strong>" },
+      { hora:"01:30", fin:"03:00", madrugada:true, tipo:"verbena", titulo:"DJ <strong>Víctor Magán</strong>" },
+      { hora:"03:00", fin:"06:00", madrugada:true, tipo:"verbena", titulo:"DJ <strong>DMS</strong>" },
     ]},
     { diaSemana:"Sábado", fecha:"2026-08-15", eventos:[
-      { hora:"11:45", tipo:"religioso", titulo:"Procesión y Santa Misa a Nuestra Señora" },
-      { hora:"13:30", tipo:"charanga",  titulo:"Charanga <strong>Los Pintores</strong>" },
-      { hora:"00:00", madrugada:true, tipo:"verbena", titulo:"DJ <strong>MB Sound</strong>" },
-      { hora:"01:00", madrugada:true, tipo:"verbena", titulo:"Concierto de <strong>La Perlita</strong>" },
-      { hora:"02:00", madrugada:true, tipo:"fiesta",  titulo:"<strong>Show Big Party</strong>: DJs, gogós y más sorpresas" },
-      { hora:"07:00", madrugada:true, tipo:"charanga", titulo:"Charanga <strong>Los Pintores</strong>" },
+      { hora:"11:45", fin:"13:30", tipo:"religioso", titulo:"Procesión y Santa Misa a Nuestra Señora" },
+      { hora:"13:30", fin:"18:00", tipo:"charanga",  titulo:"Charanga <strong>Los Pintores</strong>" },
+      { hora:"00:00", horaTexto:"24:00", fin:"01:00", madrugada:true, tipo:"verbena", titulo:"DJ <strong>MB Sound</strong>" },
+      { hora:"01:00", fin:"02:00", madrugada:true, tipo:"verbena", titulo:"Concierto de <strong>La Perlita</strong>" },
+      { hora:"02:00", fin:"07:00", madrugada:true, tipo:"fiesta",  titulo:"<strong>Show Big Party</strong>: DJs, gogós y más sorpresas" },
+      { hora:"07:00", fin:"09:00", madrugada:true, tipo:"charanga", titulo:"Charanga <strong>Los Pintores</strong>" },
     ]},
     { diaSemana:"Domingo", fecha:"2026-08-16", eventos:[
-      { hora:"11:00", tipo:"religioso", titulo:"Procesión de nuestro Patrón San Roque y Santa Misa en su honor" },
-      { hora:"14:00", tipo:"charanga",  titulo:"Charanga <strong>Los Pintores</strong>" },
-      { hora:"23:30", tipo:"verbena",   titulo:"Orquesta <strong>Magia</strong>" },
+      { hora:"11:00", fin:"14:00", tipo:"religioso", titulo:"Procesión de nuestro Patrón San Roque y Santa Misa en su honor" },
+      { hora:"14:00", fin:"18:30", tipo:"charanga",  titulo:"Charanga <strong>Los Pintores</strong>" },
+      { hora:"23:30", fin:"04:00", tipo:"verbena",   titulo:"Orquesta <strong>Magia</strong>" },
     ]},
   ],
 };
@@ -274,10 +298,11 @@ const MESES = ["enero","febrero","marzo","abril","mayo","junio","julio","agosto"
 const DIAS_SEMANA = ["domingo","lunes","martes","miércoles","jueves","viernes","sábado"];
 
 /* La jornada festiva no acaba a medianoche: la del sábado incluye el concierto
-   de la 01:00 y la charanga de las 07:00 del domingo. Toda la lógica temporal
-   razona por jornada, no por día natural, para no saltar de día en plena
-   verbena. Esta constante es el único sitio que gobierna el corte. */
-const CORTE_JORNADA = 8;      // la jornada de un día llega hasta las 08:00 del siguiente
+   de la 01:00 y la charanga de las 07:00 a 09:00 del domingo. Toda la lógica
+   temporal razona por jornada, no por día natural, para no saltar de día en
+   plena verbena. Esta constante es el único sitio que gobierna el corte, y no
+   puede bajar del fin más tardío de ningún acto: el arnés lo comprueba. */
+const CORTE_JORNADA = 9;      // la jornada de un día llega hasta las 09:00 del siguiente
 /* Distinto del corte: solo decide cómo se redacta la nota de un acto que cae en
    el día siguiente. A las 07:00 ya no es madrugada, pero sigue siendo jornada
    del sábado. No unificar con CORTE_JORNADA. */
@@ -375,21 +400,6 @@ function pintarNav(){
   });
 }
 
-function proximoEventoDe(dia){
-  const real = ahora();
-  /* El día se filtra por jornada (desplazada), pero la hora de cada evento se
-     compara con la hora real. Son dos relojes distintos: no mezclarlos. */
-  if(new Date(dia.fecha+"T00:00:00").getTime() !== fechaJornada(real).getTime()) return -1;
-  /* Truncado al minuto: el acto que empieza justo en este minuto sigue contando
-     como próximo. Sin esto, marcarlo dependería de los segundos exactos de
-     carga y el acto de la 01:00 se saltaría a la 01:00:01. */
-  const ref=new Date(real.getTime()); ref.setSeconds(0,0);
-  for(let j=0;j<dia.eventos.length;j++){
-    if(instanteDe(dia,dia.eventos[j]).getTime()>=ref.getTime()) return j;
-  }
-  return -1;
-}
-
 /* Instante real en que empieza un acto: su hora de reloj sobre la fecha de la
    jornada, desplazada un día si es de madrugada. */
 function instanteDe(dia, ev){
@@ -397,6 +407,88 @@ function instanteDe(dia, ev){
   const t=new Date(dia.fecha+"T00:00:00"); t.setHours(h,m,0,0);
   if(ev.madrugada) t.setDate(t.getDate()+1);
   return t;
+}
+
+/* Instante en que acaba, o null si el acto no declara fin. Regla única: si "fin"
+   es menor que "hora" como cadena, cae en el día siguiente al del inicio ya
+   resuelto. Con "HH:MM" a dos dígitos, comparar cadenas es comparar horas. */
+function finDe(dia, ev){
+  if(!ev.fin) return null;
+  const f=instanteDe(dia,ev);
+  const [h,m]=ev.fin.split(":").map(Number);
+  f.setHours(h,m,0,0);
+  if(ev.fin < ev.hora) f.setDate(f.getDate()+1);
+  return f.getTime();
+}
+
+/* Hora de referencia truncada al minuto: el acto que empieza justo en este
+   minuto ya cuenta. Sin esto dependería de los segundos exactos de carga. */
+function refAhora(){
+  const r=new Date(ahora().getTime()); r.setSeconds(0,0); return r.getTime();
+}
+
+/* ÚNICA fuente de verdad de "qué está pasando" en un día. Devuelve los dos
+   índices a la vez para que el hero y la lista no puedan contradecirse.
+   Un acto está en curso si inicio <= t < fin, así que en actos contiguos el
+   límite pertenece al que empieza: ni solapamiento ni hueco de un minuto. */
+function estadoDe(dia, t){
+  let enCurso=-1, proximo=-1;
+  for(let j=0;j<dia.eventos.length;j++){
+    const fin=finDe(dia,dia.eventos[j]);
+    if(fin!==null && instanteDe(dia,dia.eventos[j]).getTime()<=t && t<fin){ enCurso=j; break; }
+  }
+  for(let j=0;j<dia.eventos.length;j++){
+    if(j===enCurso) continue;   // el que está en curso no es además el próximo
+    if(instanteDe(dia,dia.eventos[j]).getTime()>=t){ proximo=j; break; }
+  }
+  return { enCurso, proximo };
+}
+
+/* Para la lista: solo marca actos de la jornada que está pintada. */
+function estadoJornadaDe(dia){
+  if(new Date(dia.fecha+"T00:00:00").getTime() !== fechaJornada(ahora()).getTime()) return { enCurso:-1, proximo:-1 };
+  return estadoDe(dia, refAhora());
+}
+
+/* Para el hero: el acto en curso solo puede ser de la jornada activa, pero el
+   próximo puede estar en días posteriores. A las 06:30 del viernes es más útil
+   decir que lo siguiente es esa noche que decir que no queda nada. */
+function estadoHero(){
+  const t=refAhora();
+  const idx=indiceJornada(fechaJornada(ahora()));
+  let enCurso=null, proximo=null;
+  if(idx>=0){
+    const dia=FIESTAS.dias[idx];
+    const e=estadoDe(dia,t);
+    if(e.enCurso>=0) enCurso={ dia, idx:e.enCurso };
+    if(e.proximo>=0) proximo={ dia, idx:e.proximo };
+  }
+  if(!proximo){
+    for(let i=(idx>=0?idx+1:0); i<FIESTAS.dias.length && !proximo; i++){
+      const dia=FIESTAS.dias[i];
+      for(let j=0;j<dia.eventos.length;j++){
+        if(instanteDe(dia,dia.eventos[j]).getTime()>=t){ proximo={ dia, idx:j }; break; }
+      }
+    }
+  }
+  return { enCurso, proximo };
+}
+
+/* El chip oscuro depende de la hora de inicio, no de madrugada: la charanga de
+   las 07:00 no es de noche aunque su acto pertenezca a la jornada anterior. */
+function esNocturna(ev){ return Number(ev.hora.split(":")[0]) < HORA_MADRUGADA; }
+
+/* Solo se nombra el día si el próximo acto es de otra jornada Y además de otro
+   día de calendario. Con los datos de 2026 no llega a cumplirse nunca; queda
+   para ediciones futuras con huecos que crucen días de verdad. */
+function diaDelProximo(prox){
+  if(!prox) return "";
+  if(new Date(prox.dia.fecha+"T00:00:00").getTime() === fechaJornada(ahora()).getTime()) return "";
+  const inicio=instanteDe(prox.dia, prox.dia.eventos[prox.idx]);
+  const hoy=new Date(ahora().getTime()); hoy.setHours(0,0,0,0);
+  const suDia=new Date(inicio.getTime()); suDia.setHours(0,0,0,0);
+  if(suDia.getTime()===hoy.getTime()) return "";
+  return DIAS_SEMANA[inicio.getDay()];
 }
 
 /* La etiqueta "Próximo" se pinta siempre, oculta con [hidden]. Así el refresco
@@ -410,24 +502,28 @@ function pintarPrograma(){
     `<h2 class="dia-titulo">${dia.diaSemana} <span>${fechaLarga(dia.fecha)}</span></h2>` +
     dia.eventos.map(ev=>`
       <article class="evento">
-        <div class="hora${ev.madrugada?" nocturna":""}">${ev.hora}</div>
+        <div class="hora${esNocturna(ev)?" nocturna":""}">${ev.horaTexto||ev.hora}</div>
         <div class="evento-cuerpo">
-          <span class="etq-proximo" hidden>Próximo</span>
+          <span class="etq-ahora" hidden>Ahora</span><span class="etq-proximo" hidden>Próximo</span>
           <p><span class="ico" aria-hidden="true">${ICONOS[ev.tipo]||"•"}</span>${ev.titulo}
           ${notaDiaSiguiente(ev, siguienteDia)}</p>
         </div>
       </article>`).join("");
-  marcarProximo();
+  marcarActos();
 }
 
-function marcarProximo(){
-  const idxProx = proximoEventoDe(FIESTAS.dias[diaActivo]);
+function alternarMarca(art, clase, selector, activo){
+  if(activo) art.classList.add(clase); else art.classList.remove(clase);
+  const etq = art.querySelector(selector);
+  if(etq){ if(activo) etq.removeAttribute("hidden"); else etq.setAttribute("hidden",""); }
+}
+
+function marcarActos(){
+  const est = estadoJornadaDe(FIESTAS.dias[diaActivo]);
   const arts = document.querySelectorAll("#programa .evento");
   for(let j=0;j<arts.length;j++){
-    const es = (j===idxProx);
-    if(es) arts[j].classList.add("proximo"); else arts[j].classList.remove("proximo");
-    const etq = arts[j].querySelector(".etq-proximo");
-    if(etq){ if(es) etq.removeAttribute("hidden"); else etq.setAttribute("hidden",""); }
+    alternarMarca(arts[j], "ahora", ".etq-ahora", j===est.enCurso);
+    alternarMarca(arts[j], "proximo", ".etq-proximo", j===est.proximo);
   }
 }
 
@@ -476,29 +572,44 @@ function pintarEstado(){
   const txt=document.getElementById("estado-txt");
   const punto=document.querySelector(".estado .punto");
   const dias=FIESTAS.dias;
-  const real=ahora();
-  const jornada=fechaJornada(real);
+  const jornada=fechaJornada(ahora());
   /* Ambas a las 00:00: con la jornada normalizada, los días que faltan son una
      resta exacta y Math.round no puede irse de uno. */
   const primero=new Date(dias[0].fecha+"T00:00:00");
-  const ultimo=new Date(dias[dias.length-1].fecha+"T00:00:00");
 
   punto.style.background=""; punto.style.boxShadow="";   // el refresco reutiliza el nodo
 
   if(jornada.getTime()<primero.getTime()){
     const faltan=Math.round((primero.getTime()-jornada.getTime())/MS_DIA);
     txt.textContent = faltan===1 ? "¡Mañana empiezan las fiestas!" : `Faltan ${faltan} días para las fiestas.`;
-  } else if(jornada.getTime()>ultimo.getTime()){
+    return;
+  }
+
+  const est=estadoHero();
+  /* Se cierra en cuanto no queda nada por delante, sin esperar al corte: decir
+     que seguimos en fiestas cuando la Orquesta Magia acabó a las 04:00 sería
+     menos honesto que dar la edición por terminada. */
+  if(!est.enCurso && !est.proximo){
     punto.style.background="var(--tinta-suave)"; punto.style.boxShadow="none";
     txt.textContent = `Edición ${FIESTAS.edicion} finalizada. ¡Nos vemos el año que viene!`;
-  } else {
-    const nombre=dias[Math.max(0,indiceJornada(jornada))].diaSemana.toLowerCase();
-    /* Antes del corte el móvil ya marca el día siguiente: decir "hoy es sábado"
-       a la 01:00 del domingo chocaría. Se redacta como noche de la jornada. */
-    txt.textContent = real.getHours()<CORTE_JORNADA
-      ? `¡Estamos en fiestas! Seguimos en la noche del ${nombre}.`
-      : `¡Estamos en fiestas! Hoy es ${nombre}.`;
+    return;
   }
+
+  let filas="";
+  if(est.enCurso){
+    /* Sin hora: si está ocurriendo, la de inicio no aporta y ocupa sitio. */
+    filas += `<span class="estado-linea"><span class="etq-ahora">Ahora</span>` +
+             `<span class="estado-nombre">${est.enCurso.dia.eventos[est.enCurso.idx].titulo}</span></span>`;
+  }
+  if(est.proximo){
+    const ev=est.proximo.dia.eventos[est.proximo.idx];
+    const dia=diaDelProximo(est.proximo);
+    filas += `<span class="estado-linea"><span class="etq-proximo">Próximo</span>` +
+             (dia?`<span class="estado-dia">${dia}</span>`:"") +
+             `<span class="estado-hora">${ev.horaTexto||ev.hora}</span>` +
+             `<span class="estado-nombre">${ev.titulo}</span></span>`;
+  }
+  txt.innerHTML=filas;
 }
 
 function sincronizarDia(){
@@ -521,7 +632,7 @@ function refrescar(){
       reconstruido = true;
     }
   }
-  if(!reconstruido) marcarProximo();   // pintarPrograma() ya lo hace por su cuenta
+  if(!reconstruido) marcarActos();     // pintarPrograma() ya lo hace por su cuenta
   if(trasRefrescar) trasRefrescar();
 }
 
