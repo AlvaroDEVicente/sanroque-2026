@@ -230,6 +230,13 @@
         font-weight: 700;
         font-variant-numeric: tabular-nums;
       }
+      /* El «·» que ya usa el resto de la página. Es un elemento flex propio, así
+         que no puede quedarse huérfano al final de una línea cuando el nombre
+         envuelve: la envoltura ocurre dentro de .estado-nombre. El aire a los
+         lados lo da el gap de .estado-linea. */
+      .estado-sep {
+        flex: 0 0 auto;
+      }
       /* El nombre se ve completo siempre: envuelve en tantas líneas como necesite.
          El bloque no tiene altura fija y crece con los nombres largos, que es
          deliberado. Nada de recorte, ni de scroll, ni de letra más pequeña. */
@@ -254,6 +261,17 @@
       }
       .dias-nav::-webkit-scrollbar {
         display: none;
+      }
+      /* Centrado cuando los chips caben, desplazable cuando no. Los márgenes
+         automáticos absorben el espacio libre y se resuelven a 0 cuando no hay,
+         así que al desbordar los chips quedan pegados al inicio y siguen
+         alcanzables. justify-content:center no serviría: al desbordar dejaría
+         los primeros chips fuera del área a la que se puede desplazar. */
+      .dias-nav > :first-child {
+        margin-left: auto;
+      }
+      .dias-nav > :last-child {
+        margin-right: auto;
       }
       .dia-chip {
         flex: 0 0 auto;
@@ -1105,6 +1123,7 @@
           `<span class="estado-linea"><span class="etq-proximo">Próximo</span>` +
           (dia ? `<span class="estado-dia">${dia}</span>` : "") +
           `<span class="estado-hora">${ev.horaTexto || ev.hora}</span>` +
+          `<span class="estado-sep" aria-hidden="true">·</span>` +
           `<span class="estado-nombre">${ev.titulo}</span></span>`;
       }
 
