@@ -201,12 +201,21 @@
         /* Al principio, no centrado: el nombre puede ocupar varias líneas y el
            punto debe quedar a la altura de la primera, no del centro del bloque. */
         align-items: flex-start;
-        /* A la izquierda en todos los tamaños. El móvil centraba esta caja, y
-           entonces la cuenta atrás y el aviso de cierre salían centrados
-           mientras «Ahora» y «Próximo» seguían a la izquierda: los cuatro
-           estados del bloque comparten alineación, que para eso son el mismo
-           bloque. El hero sigue centrado; el que no se centra es este cartel. */
+        /* Por defecto a la izquierda, que es lo que necesitan los dos estados
+           que llevan pastilla. Los otros dos se centran con .sin-pastilla. */
         text-align: left;
+      }
+      /* La cuenta atrás previa a las fiestas y el cierre de edición son un punto
+         de color y una frase corta: centrados quedan limpios. «Ahora» y
+         «Próximo» no pueden centrarse, porque el nombre llega a ocupar tres
+         líneas en móvil —el Show Big Party las ocupa— y centrarlo con la
+         pastilla anclada a la izquierda deja las líneas desiguales.
+         Clase y no @media a propósito: lo que decide es si hay pastilla, no el
+         ancho de la pantalla, así que vale igual en móvil y en escritorio. La
+         pone ponerAlineacion() al pintar, que es quien sabe cuál de los cuatro
+         estados se está dibujando. */
+      .estado.sin-pastilla {
+        text-align: center;
       }
       .estado .punto {
         width: 11px;
@@ -235,9 +244,9 @@
         align-items: baseline;
         flex-wrap: nowrap;
         min-width: 0;
-        /* Redundante con .estado desde que el móvil dejó de centrar la caja,
-           pero se queda: fija la alineación de las líneas envueltas del nombre
-           aquí mismo, y así no depende de que nadie vuelva a centrar el padre. */
+        /* Redundante mientras .sin-pastilla y las pastillas se excluyan —y se
+           excluyen—, pero se queda: fija aquí mismo la alineación de las líneas
+           envueltas del nombre, sin depender de cómo acabe el padre. */
         text-align: left;
       }
       .estado-linea .etq-ahora,
@@ -1124,6 +1133,16 @@
         punto.style.boxShadow = gris ? "none" : "";
       }
 
+      /* Centrado o no, según el estado lleve pastilla o sea una frase suelta.
+         Va aparte de ponerPunto() porque punto y pastilla no van juntos:
+         «Ahora» lleva los dos, «Próximo» lleva pastilla sin punto, y la cuenta
+         atrás y el cierre llevan punto sin pastilla. */
+      function ponerAlineacion(sinPastilla) {
+        document
+          .getElementById("estado")
+          .classList.toggle("sin-pastilla", sinPastilla);
+      }
+
       function pintarEstado() {
         const txt = document.getElementById("estado-txt");
         const dias = FIESTAS.dias;
@@ -1134,6 +1153,7 @@
 
         if (jornada.getTime() < primero.getTime()) {
           ponerPunto(true, false); // la cuenta atrás conserva su punto verde
+          ponerAlineacion(true); // frase suelta: centrada
           const faltan = Math.round(
             (primero.getTime() - jornada.getTime()) / MS_DIA,
           );
@@ -1150,6 +1170,7 @@
      menos honesto que dar la edición por terminada. */
         if (!est.enCurso && !est.proximo) {
           ponerPunto(true, true); // gris: la edición terminó
+          ponerAlineacion(true); // frase suelta: centrada
           txt.textContent = `Edición ${FIESTAS.edicion} finalizada. ¡Nos vemos el año que viene!`;
           return;
         }
@@ -1160,6 +1181,7 @@
            cinco horas seguidas sin mencionar la charanga de las 07:00. */
         if (est.enCurso) {
           ponerPunto(true, false); // lo único que enciende el punto verde
+          ponerAlineacion(false); // con pastilla: a la izquierda
           /* Sin hora: si está ocurriendo, la de inicio no aporta y ocupa sitio. */
           txt.innerHTML =
             `<span class="estado-linea"><span class="etq-ahora">Ahora</span>` +
@@ -1167,6 +1189,7 @@
           return;
         }
         ponerPunto(false); // «Próximo» no lleva punto: nada está ocurriendo
+        ponerAlineacion(false); // con pastilla: a la izquierda
         const ev = est.proximo.dia.eventos[est.proximo.idx];
         const dia = diaDelProximo(est.proximo);
         txt.innerHTML =
