@@ -298,10 +298,16 @@
         top: 0;
         z-index: 20;
         display: flex;
-        gap: 8px;
+        gap: 6px;
         overflow-x: auto;
         scrollbar-width: none;
-        padding: 12px 14px;
+        /* La barra sigue ocupando todo el ancho —su fondo y su borde tienen que
+           tapar lo que pasa por debajo al desplazarse—, pero la fila de chips se
+           queda en la misma columna de 760 px que el hero y el programa. Sin
+           esto, en escritorio los cuatro chips se estiraban a 310 px cada uno y
+           empequeñecían el resto de la página. En móvil el max() se resuelve al
+           mínimo y no cambia nada. */
+        padding: 12px max(10px, calc((100% - 760px) / 2));
         background: rgba(251, 243, 225, 0.92);
         backdrop-filter: blur(8px);
         border-bottom: 1px solid var(--linea);
@@ -309,23 +315,28 @@
       .dias-nav::-webkit-scrollbar {
         display: none;
       }
-      /* Centrado cuando los chips caben, desplazable cuando no. Los márgenes
-         automáticos absorben el espacio libre y se resuelven a 0 cuando no hay,
-         así que al desbordar los chips quedan pegados al inicio y siguen
-         alcanzables. justify-content:center no serviría: al desbordar dejaría
-         los primeros chips fuera del área a la que se puede desplazar. */
-      .dias-nav > :first-child {
-        margin-left: auto;
-      }
-      .dias-nav > :last-child {
-        margin-right: auto;
-      }
+      /* Los márgenes automáticos que centraban la fila se fueron: con los chips
+         repartiéndose todo el ancho no queda espacio libre que absorber, así que
+         no hacían nada. El centrado ya no hace falta porque la fila ocupa el
+         ancho entero por construcción.
+         Lo que NO se puede poner es justify-content:center: al desbordar con la
+         fuente ampliada dejaría los primeros chips fuera del área a la que se
+         puede desplazar. */
       .dia-chip {
-        flex: 0 0 auto;
+        /* Base 0 y crecimiento igual: los cuatro miden lo mismo, se repartan lo
+           que se repartan, sin depender de lo larga que sea cada palabra. Con
+           más días el reparto sigue valiendo: cada uno recibe menos.
+           min-content es el suelo y la clave de que esto no rompa el
+           desplazamiento: cuando el reparto no da ni para el texto —fuente al
+           200%, o muchos días— los chips dejan de encoger, la fila desborda y
+           el overflow-x de la nav los hace alcanzables. Sin este suelo, se
+           encogerían hasta recortar el texto y no habría nada que desplazar. */
+        flex: 1 1 0;
+        min-width: min-content;
         font-family: var(--display);
         font-weight: 700;
         font-size: 0.98rem;
-        padding: 10px 16px;
+        padding: 10px 6px;
         border-radius: 999px;
         border: 1.5px solid var(--linea);
         background: var(--papel);
@@ -341,13 +352,16 @@
           background 0.12s ease,
           border-color 0.12s ease;
       }
+      /* El nombre del día es lo que se aprieta para que quepan cuatro chips en
+         320 px: es la etiqueta, no el dato. El número conserva su tamaño, que es
+         lo que de verdad hay que leer de un vistazo. */
       .dia-chip small {
         font-family: var(--cuerpo);
         font-weight: 500;
-        font-size: 0.72rem;
+        font-size: 0.64rem;
         color: var(--tinta-suave);
         text-transform: uppercase;
-        letter-spacing: 0.05em;
+        letter-spacing: 0.02em;
       }
       .dia-chip[aria-pressed="true"] {
         background: var(--rojo);
