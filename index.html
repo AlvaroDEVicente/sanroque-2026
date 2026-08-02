@@ -207,15 +207,29 @@
       }
       /* La cuenta atrás previa a las fiestas y el cierre de edición son un punto
          de color y una frase corta: centrados quedan limpios. «Ahora» y
-         «Próximo» no pueden centrarse, porque el nombre llega a ocupar tres
-         líneas en móvil —el Show Big Party las ocupa— y centrarlo con la
-         pastilla anclada a la izquierda deja las líneas desiguales.
+         «Próximo» no pueden centrarse, porque el nombre llega a envolver a
+         varias líneas —el Show Big Party lo hace— y centrarlo con la pastilla
+         anclada a la izquierda deja las líneas desiguales.
          Clase y no @media a propósito: lo que decide es si hay pastilla, no el
          ancho de la pantalla, así que vale igual en móvil y en escritorio. La
          pone ponerAlineacion() al pintar, que es quien sabe cuál de los cuatro
          estados se está dibujando. */
       .estado.sin-pastilla {
+        /* Se centra el GRUPO, punto y frase juntos, no solo el texto. Con el
+           text-align a secas el punto se queda pegado al borde izquierdo y la
+           frase se va al centro: en escritorio eso deja 122 px de hueco entre
+           los dos y el punto parece huérfano de su frase. */
+        justify-content: center;
+        /* El text-align se queda igualmente, para las frases que envuelven:
+           centra las líneas entre sí una vez el bloque ya está centrado. */
         text-align: center;
+      }
+      /* Sin esto el bloque de texto se comería todo el ancho sobrante y no
+         quedaría hueco que repartir, así que justify-content no tendría nada
+         que centrar. Solo en este estado: con pastilla sigue creciendo, que es
+         lo que mantiene la pastilla siempre en el mismo sitio. */
+      .estado.sin-pastilla #estado-txt {
+        flex: 0 1 auto;
       }
       .estado .punto {
         width: 11px;
