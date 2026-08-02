@@ -26,8 +26,26 @@
       property="og:site_name"
       content="Fiestas de San Roque · Valdeobispo"
     />
-    <!-- og:image irá aquí cuando el cartel esté subido al repo. -->
+    <!-- URL absoluta, nunca relativa: los rastreadores de las redes sociales no
+     resuelven de forma fiable las rutas relativas. Las medidas son las reales
+     del fichero (1200 × 630); si algún año se cambia la imagen, hay que
+     cambiarlas aquí o las etiquetas mentirían. -->
+    <meta
+      property="og:image"
+      content="https://sanroquevaldeobispo.netlify.app/og-image.jpg"
+    />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:type" content="image/jpeg" />
+    <meta
+      property="og:image:alt"
+      content="Ilustración de las fiestas: San Roque vestido de peregrino, con bordón y calabaza, ante la iglesia de Valdeobispo, entre banderines de colores y flores."
+    />
     <meta name="twitter:card" content="summary" />
+    <meta
+      name="twitter:image"
+      content="https://sanroquevaldeobispo.netlify.app/og-image.jpg"
+    />
 
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -183,6 +201,11 @@
         /* Al principio, no centrado: el nombre puede ocupar varias líneas y el
            punto debe quedar a la altura de la primera, no del centro del bloque. */
         align-items: flex-start;
+        /* A la izquierda en todos los tamaños. El móvil centraba esta caja, y
+           entonces la cuenta atrás y el aviso de cierre salían centrados
+           mientras «Ahora» y «Próximo» seguían a la izquierda: los cuatro
+           estados del bloque comparten alineación, que para eso son el mismo
+           bloque. El hero sigue centrado; el que no se centra es este cartel. */
         text-align: left;
       }
       .estado .punto {
@@ -212,8 +235,9 @@
         align-items: baseline;
         flex-wrap: nowrap;
         min-width: 0;
-        /* Gana al text-align:center que el móvil aplica a .estado, que dejaría
-           las líneas envueltas del nombre centradas y desiguales. */
+        /* Redundante con .estado desde que el móvil dejó de centrar la caja,
+           pero se queda: fija la alineación de las líneas envueltas del nombre
+           aquí mismo, y así no depende de que nadie vuelva a centrar el padre. */
         text-align: left;
       }
       .estado-linea .etq-ahora,
@@ -431,6 +455,20 @@
         border-top-color: var(--crema);
         margin-bottom: 22px;
       }
+      /* Va a color, tal cual lo entregó el Ayuntamiento. La altura la fija el
+         CSS y el ancho sale solo de la proporción 550 × 960 que declaran los
+         atributos del <img>: nunca se deforma, se cambie el alto que se cambie. */
+      footer .escudo {
+        display: block;
+        height: 64px;
+        width: auto;
+        margin: 0 auto 14px;
+        /* Camino preparado por si el color no aguanta sobre el fondo oscuro:
+           descomentar ESTA línea lo deja en silueta monocroma color crema.
+           brightness(0) lo aplana a negro, invert(1) lo sube a blanco y el
+           sepia/saturate/brightness lo tiñen hasta ≈#f7f7e1, el crema del pie. */
+        /* filter: brightness(0) invert(1) sepia(0.5) saturate(3) brightness(0.97); */
+      }
 
       @media (max-width: 480px) {
         body {
@@ -438,9 +476,6 @@
         }
         .hero-inner {
           padding-top: 20px;
-        }
-        .estado {
-          text-align: center;
         }
       }
 
@@ -491,7 +526,9 @@
       <div class="hero-inner">
         <p class="eyebrow">Fiestas de</p>
         <h1 class="titulo">San Roque</h1>
-        <p class="lugar">Valdeobispo · Cáceres</p>
+        <!-- Sin provincia: quien escanea el QR del cartel ya está en el pueblo.
+         El pie y las etiquetas del <head> sí la llevan, que ahí desambigua. -->
+        <p class="lugar">Valdeobispo</p>
         <p class="fechas" id="rango">13 – 16 de agosto de 2026</p>
         <div class="estado" id="estado">
           <span class="punto"></span
@@ -518,6 +555,18 @@
 
     <footer>
       <div class="bunting" aria-hidden="true"></div>
+      <!-- En <img> y no incrustado: mantiene manejable el index.html y deja que
+       el navegador lo cachee aparte. width y height son las medidas reales del
+       SVG (550 × 960): dan la proporción exacta y reservan el hueco antes de
+       que cargue, así que no hay salto de maquetación. El tamaño en pantalla
+       lo pone el CSS. -->
+      <img
+        class="escudo"
+        src="escudo.svg"
+        width="550"
+        height="960"
+        alt="Escudo del municipio de Valdeobispo"
+      />
       <p class="org">Organiza: Ayuntamiento de Valdeobispo</p>
       <p class="meta">Valdeobispo · Cáceres · Extremadura</p>
       <p class="meta">Programa sujeto a posibles cambios.</p>
