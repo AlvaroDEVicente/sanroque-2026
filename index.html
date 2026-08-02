@@ -460,7 +460,19 @@
         text-transform: uppercase;
         color: #fff;
         background: var(--rojo);
-        padding: 2px 8px;
+        /* Relleno vertical ASIMÉTRICO, 3px arriba y 1px abajo, a propósito.
+           El texto va en versalitas: no tiene ni ascendentes ni descendentes,
+           así que su mancha ocupa solo de la línea base hasta la altura de
+           mayúscula. Con relleno simétrico la caja de línea le deja debajo el
+           hueco de las descendentes que ningún glifo usa, y la pastilla queda
+           colgando por debajo de su propio texto: medido, 5,00px de aire arriba
+           contra 6,84px abajo, y el centro de la pastilla 0,92px por debajo del
+           centro óptico del nombre. Se veía hundida.
+           Este 3/1 iguala los dos aires —6,00 contra 5,84— sin tocar la
+           alineación por línea base entre pastilla y nombre, que es correcta y
+           es lo que mantiene bien el caso del nombre de varias líneas. La altura
+           de la pastilla no cambia: sube 1px por arriba y baja 1px por abajo. */
+        padding: 3px 8px 1px;
         border-radius: 999px;
         margin-bottom: 4px;
       }
