@@ -47,6 +47,13 @@
       content="https://sanroquevaldeobispo.netlify.app/og-image.jpg"
     />
 
+    <!-- La bandera del municipio. Un solo PNG de 512: los navegadores actuales
+     lo escalan bien, así que no hacen falta ni un .ico ni varios tamaños. Sin
+     esta línea el navegador pedía /favicon.ico por su cuenta y se llevaba un
+     404 en cada carga. Ruta relativa, como la del escudo: así el index.html
+     sigue funcionando abierto directamente con file://. -->
+    <link rel="icon" type="image/png" href="favicon.png" />
+
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
