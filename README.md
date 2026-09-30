@@ -7,8 +7,12 @@
 </p>
 
 <p align="center">
-  <img src="./docs/captura.jpg" alt="Programa de fiestas de San Roque 2026 en la web" width="80%">
+  <img src="./docs/movil_ahora.jpg" alt="Web en el móvil con el aviso «Ahora: Concierto de Duplicados» durante las fiestas" width="40%">
+  &nbsp;&nbsp;
+  <img src="./docs/movil_completa.jpg" alt="Página completa en el móvil con el programa del jueves 13 de agosto" width="20%">
 </p>
+
+<p align="center"><sub>Vista en el móvil con la hora simulada del jueves 13 a las 23:45 (<code>?ahora=2026-08-13T23:45</code>): el aviso muestra el acto que está sonando en ese momento.</sub></p>
 
 Web informativa del programa de las fiestas patronales de Valdeobispo (Cáceres),
 del 13 al 16 de agosto de 2026.
