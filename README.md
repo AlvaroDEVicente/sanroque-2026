@@ -1,5 +1,15 @@
 # Fiestas de San Roque · Valdeobispo
 
+<p>
+  <a href="https://sanroquevaldeobispo.netlify.app"><img src="https://img.shields.io/badge/Ver%20web-en%20producci%C3%B3n-8B45F0?style=flat-square&labelColor=0A0A0E" alt="Ver la web"></a>
+  <img src="https://img.shields.io/badge/HTML%20%2B%20CSS%20%2B%20JS-un%20solo%20archivo-0A0A0E?style=flat-square" alt="Un solo archivo">
+  <img src="https://img.shields.io/badge/Netlify-despliegue%20autom%C3%A1tico-0A0A0E?style=flat-square&logo=netlify&logoColor=00C7B7" alt="Netlify">
+</p>
+
+<p align="center">
+  <img src="./docs/captura.jpg" alt="Programa de fiestas de San Roque 2026 en la web" width="80%">
+</p>
+
 Web informativa del programa de las fiestas patronales de Valdeobispo (Cáceres),
 del 13 al 16 de agosto de 2026.
 
